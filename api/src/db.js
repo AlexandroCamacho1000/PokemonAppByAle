@@ -2,6 +2,8 @@
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
 const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
+console.log('🔍 Type module:', require('./models/Type'));
+console.log('🔍 Pokemon module:', require('./models/Pokemon'));
 
 // 1. Conexión a PostgreSQL
 const sequelize = new Sequelize(

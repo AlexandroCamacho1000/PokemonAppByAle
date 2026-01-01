@@ -8,7 +8,7 @@ const router = Router();
 // const createHandler = require('../handlers/pokemon/createHandler');
 
 // RUTA DE TIPOS (comentada temporalmente)
-// const typeHandler = require('../handlers/type/typeHandler');
+const typeHandler = require('../handlers/type/typeHandler');
 
 // RUTA DE PRUEBA
 router.get('/test', (req, res) => {
@@ -26,6 +26,6 @@ router.get('/test', (req, res) => {
 // router.get('/pokemons/:id', getByIdHandler);
 // router.get('/pokemons/name', getByNameHandler);
 // router.post('/pokemons', createHandler);
-// router.get('/types', typeHandler);
+ router.get('/types', typeHandler);
 
 module.exports = router;
