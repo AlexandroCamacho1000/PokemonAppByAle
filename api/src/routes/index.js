@@ -2,7 +2,7 @@ const { Router } = require('express');
 const router = Router();
 
 // RUTAS DE POKÉMON (comentadas temporalmente hasta crear los handlers)
-// const getAllHandler = require('../handlers/pokemon/getAllHandler');
+const getAllHandler = require('../handlers/pokemon/getAllHandler');
 // const getByIdHandler = require('../handlers/pokemon/getByIdHandler');
 // const getByNameHandler = require('../handlers/pokemon/getByNameHandler');
 // const createHandler = require('../handlers/pokemon/createHandler');
@@ -22,7 +22,7 @@ router.get('/test', (req, res) => {
 });
 
 // RUTAS COMENTADAS (activar una por una)
-// router.get('/pokemons', getAllHandler);
+ router.get('/pokemons', getAllHandler);
 // router.get('/pokemons/:id', getByIdHandler);
 // router.get('/pokemons/name', getByNameHandler);
 // router.post('/pokemons', createHandler);
