@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom'; // <-- Añadido
 import { getAllPokemons } from '../../redux/actions/pokemonActions';
 import Card from '../../components/Card/Card';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import Filters from '../../components/Filters/Filters';
-import Pagination from '../../components/Pagination/Pagination'; // <-- Añade esta importación
+import Pagination from '../../components/Pagination/Pagination';
 import styles from './Home.module.css';
 
 const Home = () => {
@@ -32,14 +33,23 @@ const Home = () => {
 
   return (
     <div className={styles.home}>
-      <div className={styles.headerContent}>
-        <h1>EXPLORA EL MUNDO POKÉMON</h1>
-        <div className={styles.counter}>
-          {displayedPokemons.length} Pokémon descubiertos
+      {/* HEADER CON BOTÓN DE CREATE */}
+      <div className={styles.header}>
+        <div className={styles.headerContent}>
+          <h1>EXPLORA EL MUNDO POKÉMON</h1>
+          <div className={styles.counter}>
+            {displayedPokemons.length} Pokémon descubiertos
+          </div>
+          <p className={styles.subtitle}>
+            Descubre, colecciona y explora todas las criaturas del universo Pokémon
+          </p>
         </div>
-        <p className={styles.subtitle}>
-          Descubre, colecciona y explora todas las criaturas del universo Pokémon
-        </p>
+        
+        {/* BOTÓN PARA CREAR POKÉMON */}
+        <Link to="/create" className={styles.createButton}>
+          <span className={styles.plusIcon}>＋</span>
+          Crear Pokémon
+        </Link>
       </div>
 
       {/* SEARCH BAR */}
@@ -73,6 +83,9 @@ const Home = () => {
             >
               🔄 Mostrar todos
             </button>
+            <Link to="/create" className={styles.createButtonAlt}>
+              ✨ Crear nuevo Pokémon
+            </Link>
           </div>
         )}
       </div>

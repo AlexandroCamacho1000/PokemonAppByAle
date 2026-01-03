@@ -29,8 +29,22 @@
   z-index: 1;
 }
 
+/* ============ HEADER CON BOTÓN CREATE ============ */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.headerContent {
+  text-align: left;
+  flex: 1;
+}
+
 .home h1 {
-  text-align: center;
   font-size: 3.5rem;
   margin-bottom: 1rem;
   background: linear-gradient(90deg, #4b7cb6, #e0e8e8, #4b7cb6);
@@ -50,17 +64,68 @@
   content: '';
   position: absolute;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   width: 200px;
   height: 3px;
-  background: linear-gradient(90deg, transparent, #4b7cb6, transparent);
+  background: linear-gradient(90deg, #4b7cb6, transparent);
+}
+/* ============ FIN HEADER ============ */
+
+/* ============ BOTÓN CREATE ============ */
+.createButton {
+  padding: 0.9rem 1.8rem;
+  background: linear-gradient(145deg, rgba(255, 20, 147, 0.2), rgba(75, 124, 182, 0.2));
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 2px solid rgba(255, 20, 147, 0.4);
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.2),
+    0 0 20px rgba(255, 20, 147, 0.1);
+  white-space: nowrap;
+  margin-top: 0.5rem;
 }
 
-.headerContent {
-  text-align: center;
-  margin-bottom: 3rem;
+.createButton:hover {
+  background: linear-gradient(145deg, rgba(255, 20, 147, 0.3), rgba(75, 124, 182, 0.3));
+  transform: translateY(-3px);
+  border-color: rgba(255, 20, 147, 0.6);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(255, 20, 147, 0.2);
 }
+
+.plusIcon {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #ff1493;
+}
+
+.createButtonAlt {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(145deg, rgba(255, 20, 147, 0.3), rgba(75, 124, 182, 0.3));
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  border: 1px solid rgba(255, 20, 147, 0.4);
+  transition: all 0.3s ease;
+}
+
+.createButtonAlt:hover {
+  background: linear-gradient(145deg, rgba(255, 20, 147, 0.4), rgba(75, 124, 182, 0.4));
+  transform: translateY(-2px);
+}
+/* ============ FIN BOTÓN CREATE ============ */
 
 .counter {
   display: inline-block;
@@ -79,8 +144,8 @@
   font-size: 1.2rem;
   color: #8fb0e8;
   max-width: 600px;
-  margin: 0 auto;
   line-height: 1.6;
+  margin-top: 0.5rem;
 }
 
 .loading {
@@ -138,32 +203,6 @@
 }
 /* ============ FIN CORRECCIÓN ============ */
 
-/* Controles futuros (filtros, búsqueda) */
-.controls {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 3rem;
-  flex-wrap: wrap;
-}
-
-.controlGroup {
-  background: rgba(54, 79, 119, 0.4);
-  border-radius: 15px;
-  padding: 1.5rem;
-  border: 1px solid rgba(255, 20, 147, 0.2);
-  backdrop-filter: blur(10px);
-  min-width: 250px;
-}
-
-.controlTitle {
-  font-size: 1.1rem;
-  color: #ffffff;
-  margin-bottom: 1rem;
-  text-align: center;
-  font-weight: 600;
-}
-
 .noPokemons {
   grid-column: 1 / -1;
   text-align: center;
@@ -218,19 +257,6 @@
               0 0 20px rgba(255, 20, 147, 0.4);
 }
 
-/* Paginación futura */
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 4rem;
-  padding: 1.5rem;
-  background: rgba(54, 79, 119, 0.2);
-  border-radius: 15px;
-  border: 1px solid rgba(255, 20, 147, 0.2);
-}
-
 /* Agrega esto después de .subtitle */
 .searchSection {
   margin-bottom: 3rem;
@@ -265,8 +291,26 @@
     padding: 1rem;
   }
   
+  .header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .headerContent {
+    text-align: center;
+  }
+  
   .home h1 {
     font-size: 2.5rem;
+  }
+  
+  .home h1::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .createButton {
+    align-self: center;
   }
   
   .pokemonGrid {
@@ -276,16 +320,6 @@
   
   .cardContainer {
     min-height: 380px;
-  }
-  
-  .controls {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .controlGroup {
-    width: 100%;
-    max-width: 400px;
   }
 }
 
@@ -307,5 +341,9 @@
     font-size: 1.1rem;
     padding: 0.6rem 1.5rem;
   }
+  
+  .createButton {
+    padding: 0.7rem 1.4rem;
+    font-size: 0.9rem;
+  }
 }
-

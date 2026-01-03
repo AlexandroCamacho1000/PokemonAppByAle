@@ -1,0 +1,350 @@
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(54, 79, 119, 0.2); /* Igual que otros componentes */
+    border-radius: 20px;
+    border: 1px solid rgba(255, 20, 147, 0.3); /* Borde rosa sutil */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Sombra más oscura */
+    backdrop-filter: blur(10px); /* Efecto glass */
+    color: #e0e8e8; /* Texto claro */
+}
+/* TÍTULO - Usando colores de tu paleta */
+.title {
+    text-align: center;
+    color: #4b7cb6; /* AZUL principal de tu paleta */
+    margin-bottom: 0.3rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    
+    /* Sombra sutil como en tu app */
+    text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        0 0 10px rgba(75, 124, 182, 0.2);
+    
+    /* Línea inferior con color de tu paleta */
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid rgba(255, 20, 147, 0.5); /* ROSA de tu paleta */
+}
+
+/* SUBTÍTULO - Usando colores secundarios de tu paleta */
+.subtitle {
+    text-align: center;
+    color: #a8c6ff; /* AZUL CLARO de tu paleta (usado en otros lugares) */
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    
+    /* Fondo con opacidad como en tu app */
+    background: rgba(54, 79, 119, 0.3); /* COLOR de fondo de tu app */
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 20, 147, 0.2); /* Borde rosa sutil */
+    
+    /* Texto estilo similar a tu app */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+.form {
+    background: rgba(10, 25, 47, 0.7); /* Fondo oscuro semitransparente */
+    padding: 2rem;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 20, 147, 0.2); /* Borde rosa sutil */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.formGroup {
+    margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #a8c6ff; /* Azul claro */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.formGroup label::before {
+    content: '•';
+    color: rgba(255, 20, 147, 0.7); /* Punto rosa */
+    font-size: 1.2rem;
+}
+
+.formGroup input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: rgba(54, 79, 119, 0.3); /* Fondo oscuro */
+    border: 2px solid rgba(255, 20, 147, 0.3); /* Borde rosa */
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #e0e8e8; /* Texto claro */
+    transition: all 0.3s ease;
+}
+
+.formGroup input:focus {
+    outline: none;
+    border-color: rgba(255, 20, 147, 0.7); /* Rosa más intenso al focus */
+    box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.2);
+    background: rgba(54, 79, 119, 0.5);
+}
+
+.formGroup input::placeholder {
+    color: #8fb0e8; /* Placeholder azul más claro */
+    opacity: 0.7;
+}
+
+.errorInput {
+    border-color: #ff3860 !important; /* Rosa más intenso para error */
+    background-color: rgba(255, 56, 96, 0.1) !important;
+    box-shadow: 0 0 0 3px rgba(255, 56, 96, 0.2) !important;
+}
+
+.errorText {
+    color: #ff3860; /* Rosa error */
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+    display: block;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.errorText::before {
+    content: '⚠️';
+    position: absolute;
+    left: 0;
+}
+
+.statsSection {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(54, 79, 119, 0.3); /* Igual que filters */
+    border-radius: 15px;
+    border: 1px solid rgba(255, 20, 147, 0.2);
+}
+
+.statsSection h3 {
+    color: #ffffff;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.statsSection h3::before {
+    content: '📊';
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.typesSection {
+    margin: 2rem 0;
+}
+
+.typesSection h3 {
+    color: #ffffff;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.typesSection h3::before {
+    content: '🎯';
+}
+
+.typesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin: 1rem 0;
+}
+
+.typeButton {
+    padding: 0.7rem 1.4rem;
+    background: rgba(54, 79, 119, 0.4);
+    border: 2px solid rgba(255, 20, 147, 0.3);
+    border-radius: 25px;
+    color: #a8c6ff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.typeButton:hover:not(:disabled) {
+    background: rgba(255, 20, 147, 0.1);
+    border-color: rgba(255, 20, 147, 0.5);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.2);
+}
+
+.typeButton.selected {
+    background: linear-gradient(145deg, rgba(255, 20, 147, 0.3), rgba(75, 124, 182, 0.3));
+    border-color: rgba(255, 20, 147, 0.7);
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(255, 20, 147, 0.3);
+}
+
+.typeButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.selectedTypes {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(54, 79, 119, 0.2);
+    border-radius: 10px;
+    color: #8fb0e8;
+    font-style: italic;
+    border: 1px dashed rgba(255, 20, 147, 0.3);
+}
+
+.selectedTypes strong {
+    color: #ffffff;
+    font-style: normal;
+}
+
+.buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 3rem;
+}
+
+.submitButton {
+    padding: 1rem 2.5rem;
+    background: linear-gradient(145deg, rgba(255, 20, 147, 0.3), rgba(75, 124, 182, 0.3));
+    color: white;
+    border: 2px solid rgba(255, 20, 147, 0.4);
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.submitButton::before {
+    content: '✨';
+    font-size: 1.2rem;
+}
+
+.submitButton:hover:not(:disabled) {
+    background: linear-gradient(145deg, rgba(255, 20, 147, 0.4), rgba(75, 124, 182, 0.4));
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(255, 20, 147, 0.2);
+    border-color: rgba(255, 20, 147, 0.6);
+}
+
+.submitButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.cancelButton {
+    padding: 1rem 2rem;
+    background: rgba(255, 56, 96, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 56, 96, 0.4);
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.cancelButton::before {
+    content: '✕';
+    font-size: 1.2rem;
+}
+
+.cancelButton:hover:not(:disabled) {
+    background: rgba(255, 56, 96, 0.3);
+    transform: translateY(-3px);
+    border-color: rgba(255, 56, 96, 0.6);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Números dentro de inputs */
+.formGroup input[type="number"]::-webkit-inner-spin-button,
+.formGroup input[type="number"]::-webkit-outer-spin-button {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .title {
+        font-size: 2rem;
+    }
+    
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .submitButton,
+    .cancelButton {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .form {
+        padding: 1.5rem;
+    }
+    
+    .title {
+        font-size: 1.8rem;
+    }
+    
+    .typesContainer {
+        justify-content: center;
+    }
+    
+    .typeButton {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+}
