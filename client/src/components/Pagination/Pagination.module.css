@@ -1,0 +1,201 @@
+.paginationContainer {
+  background: rgba(54, 79, 119, 0.4);
+  border-radius: 20px;
+  padding: 1.5rem 2rem;
+  border: 1px solid rgba(255, 20, 147, 0.3);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.paginationInfo {
+  color: #a8c6ff;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.highlight {
+  color: #ffffff;
+  font-weight: 700;
+  background: rgba(255, 20, 147, 0.2);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  margin: 0 0.2rem;
+}
+
+.paginationControls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.pageButton {
+  padding: 0.7rem 1.2rem;
+  background: linear-gradient(145deg, rgba(75, 124, 182, 0.6), rgba(54, 79, 119, 0.8));
+  border: 2px solid rgba(255, 20, 147, 0.3);
+  border-radius: 12px;
+  color: #e0e8e8;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+
+.pageButton:hover:not(:disabled) {
+  background: linear-gradient(145deg, rgba(54, 79, 119, 0.8), rgba(75, 124, 182, 0.6));
+  border-color: rgba(255, 20, 147, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 20, 147, 0.2);
+}
+
+.pageButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.prevButton {
+  order: 1;
+}
+
+.nextButton {
+  order: 3;
+}
+
+.pageNumbers {
+  display: flex;
+  gap: 0.5rem;
+  order: 2;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pageNumber {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 25, 47, 0.6);
+  border: 2px solid rgba(255, 20, 147, 0.2);
+  border-radius: 10px;
+  color: #a8c6ff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pageNumber:hover:not(.active) {
+  background: rgba(255, 20, 147, 0.1);
+  border-color: rgba(255, 20, 147, 0.4);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.pageNumber.active {
+  background: linear-gradient(145deg, rgba(255, 20, 147, 0.4), rgba(75, 124, 182, 0.4));
+  border-color: rgba(255, 20, 147, 0.7);
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(255, 20, 147, 0.3);
+  transform: scale(1.1);
+}
+
+.ellipsis {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8fb0e8;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.pageJump {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.jumpLabel {
+  color: #a8c6ff;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.jumpSelect {
+  padding: 0.5rem 1rem;
+  background: rgba(10, 25, 47, 0.8);
+  border: 2px solid rgba(255, 20, 147, 0.4);
+  border-radius: 8px;
+  color: #e0e8e8;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 70px;
+}
+
+.jumpSelect:focus {
+  outline: none;
+  border-color: rgba(255, 20, 147, 0.8);
+  box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.2);
+}
+
+.jumpSelect option {
+  background: rgba(10, 25, 47, 0.95);
+  color: #e0e8e8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .paginationContainer {
+    padding: 1.2rem 1.5rem;
+  }
+  
+  .paginationControls {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .prevButton, .nextButton {
+    order: 0;
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .pageNumbers {
+    order: 1;
+  }
+  
+  .pageJump {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .paginationContainer {
+    padding: 1rem;
+  }
+  
+  .pageNumber {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+  
+  .pageButton {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    min-width: 90px;
+  }
+}

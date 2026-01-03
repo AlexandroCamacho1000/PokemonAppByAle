@@ -2,20 +2,23 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllPokemons } from '../../redux/actions/pokemonActions';
 import Card from '../../components/Card/Card';
-import SearchBar from '../../components/SearchBar/SearchBar'; // <-- Añade esta importación
+import SearchBar from '../../components/SearchBar/SearchBar';
+import Filters from '../../components/Filters/Filters';
+import Pagination from '../../components/Pagination/Pagination'; // <-- Añade esta importación
 import styles from './Home.module.css';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { displayedPokemons, loading } = useSelector(state => state.pokemon);
+  const { displayedPokemons, loading, currentPage } = useSelector(state => state.pokemon);
+  
+  const pokemonsPerPage = 12;
+  const indexOfLastPokemon = currentPage * pokemonsPerPage;
+  const indexOfFirstPokemon = indexOfLastPokemon - pokemonsPerPage;
+  const currentPokemons = displayedPokemons.slice(indexOfFirstPokemon, indexOfLastPokemon);
 
   useEffect(() => {
     dispatch(getAllPokemons());
   }, [dispatch]);
-
-  const handleRefresh = () => {
-    dispatch(getAllPokemons());
-  };
 
   if (loading) {
     return (
@@ -39,14 +42,20 @@ const Home = () => {
         </p>
       </div>
 
-      {/* AÑADE LA SEARCH BAR AQUÍ */}
+      {/* SEARCH BAR */}
       <div className={styles.searchSection}>
         <SearchBar />
       </div>
 
+      {/* FILTROS */}
+      <div className={styles.filtersSection}>
+        <Filters />
+      </div>
+
+      {/* GRID DE POKÉMON CON PAGINACIÓN */}
       <div className={styles.pokemonGrid}>
-        {displayedPokemons.length > 0 ? (
-          displayedPokemons.map(pokemon => (
+        {currentPokemons.length > 0 ? (
+          currentPokemons.map(pokemon => (
             <div key={pokemon.id} className={styles.cardContainer}>
               <Card pokemon={pokemon} />
             </div>
@@ -55,15 +64,25 @@ const Home = () => {
           <div className={styles.noPokemons}>
             <h2>¡Oh no! No hay Pokémon aquí</h2>
             <p>
-              Parece que no hemos podido encontrar ningún Pokémon. 
-              Esto podría deberse a un problema de conexión o que la base de datos esté vacía.
+              No se encontraron Pokémon con los filtros actuales.
+              Intenta cambiar los filtros o crea un nuevo Pokémon.
             </p>
-            <button className={styles.refreshButton} onClick={handleRefresh}>
-              🔄 Intentar de nuevo
+            <button 
+              className={styles.refreshButton} 
+              onClick={() => dispatch(getAllPokemons())}
+            >
+              🔄 Mostrar todos
             </button>
           </div>
         )}
       </div>
+
+      {/* PAGINACIÓN */}
+      {displayedPokemons.length > pokemonsPerPage && (
+        <div className={styles.paginationSection}>
+          <Pagination />
+        </div>
+      )}
     </div>
   );
 };

@@ -6,40 +6,39 @@ import styles from './SearchBar.module.css';
 const SearchBar = () => {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState('');
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleSearch = async (e) => {
     e.preventDefault();
     
     if (!searchTerm.trim()) {
-      // Si está vacío, mostrar todos los Pokémon
       dispatch(getAllPokemons());
-      setError('');
+      setMessage('');
       return;
     }
 
+    setMessage('Buscando...');
+    
     try {
+      console.log('🔍 Buscando Pokémon:', searchTerm);
       const results = await dispatch(searchPokemons(searchTerm.toLowerCase().trim()));
+      console.log('📦 Resultados recibidos:', results);
       
-      if (results.length === 0) {
-        setError(`No se encontró ningún Pokémon llamado "${searchTerm}"`);
+      if (results && results.length > 0) {
+        setMessage(`✅ Encontrados ${results.length} Pokémon`);
       } else {
-        setError('');
+        setMessage('❌ No se encontró el Pokémon');
       }
     } catch (error) {
-      setError('Error al buscar Pokémon');
+      console.error('❌ Error en búsqueda:', error);
+      setMessage('❌ Error al buscar. Intenta de nuevo.');
     }
   };
 
   const handleClear = () => {
     setSearchTerm('');
-    setError('');
+    setMessage('');
     dispatch(getAllPokemons());
-  };
-
-  const handleChange = (e) => {
-    setSearchTerm(e.target.value);
-    setError(''); // Limpiar error al escribir
   };
 
   return (
@@ -49,45 +48,29 @@ const SearchBar = () => {
           <input
             type="text"
             value={searchTerm}
-            onChange={handleChange}
-            placeholder="Buscar Pokémon por nombre..."
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Ej: pikachu, charizard, bulbasaur..."
             className={styles.searchInput}
-            aria-label="Buscar Pokémon"
           />
           <div className={styles.buttonGroup}>
-            <button 
-              type="submit" 
-              className={styles.searchButton}
-              disabled={!searchTerm.trim()}
-            >
-              <span className={styles.searchIcon}>🔍</span>
-              Buscar
+            <button type="submit" className={styles.searchButton}>
+              🔍 Buscar
             </button>
-            <button 
-              type="button" 
-              onClick={handleClear}
-              className={styles.clearButton}
-              title="Limpiar búsqueda"
-            >
+            <button type="button" onClick={handleClear} className={styles.clearButton}>
               ✕
             </button>
           </div>
         </div>
         
-        {error && (
-          <div className={styles.errorMessage}>
-            <span className={styles.errorIcon}>⚠️</span>
-            {error}
+        {message && (
+          <div className={message.includes('✅') ? styles.successMessage : styles.errorMessage}>
+            {message}
           </div>
         )}
         
-        <div className={styles.searchTips}>
-          <p className={styles.tipTitle}>Consejos de búsqueda:</p>
-          <ul className={styles.tipList}>
-            <li>Usa el nombre exacto del Pokémon</li>
-            <li>Ejemplos: <em>pikachu, charizard, mewtwo</em></li>
-            <li>La búsqueda no distingue mayúsculas/minúsculas</li>
-          </ul>
+        <div className={styles.debugInfo}>
+          <p><strong>Prueba con:</strong> pikachu, charizard, bulbasaur</p>
+          <p><small>Abre la consola (F12) para ver los logs</small></p>
         </div>
       </form>
     </div>

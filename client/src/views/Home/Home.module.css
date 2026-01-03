@@ -248,6 +248,17 @@
   }
 }
 
+.filtersSection {
+  margin-bottom: 2rem;
+  animation: fadeIn 0.6s ease 0.1s both;
+}
+
+/* Agrega esto después de .pokemonGrid */
+.paginationSection {
+  margin-top: 3rem;
+  animation: fadeIn 0.5s ease;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .home {

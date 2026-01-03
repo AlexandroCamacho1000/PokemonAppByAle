@@ -64,33 +64,45 @@ export const getPokemonDetail = (id) => {
 };
 
 // Buscar Pokémon por nombre
+// Buscar Pokémon por nombre - CORREGIDA
 export const searchPokemons = (name) => {
   return async (dispatch) => {
     try {
       dispatch({ type: SET_LOADING, payload: true });
       
+      console.log(`Buscando: ${name}`); // Para debug
       const { data } = await axios.get(`${API_URL}/pokemons/name?name=${name}`);
+      console.log('Resultado API:', data); // Para debug
+      
+      // Asegurarnos que siempre sea un array
+      const pokemons = Array.isArray(data) ? data : [data];
       
       dispatch({
         type: SEARCH_POKEMONS,
-        payload: data
+        payload: pokemons
       });
       
       dispatch({ type: SET_LOADING, payload: false });
-      return data;
+      return pokemons;
       
     } catch (error) {
       console.error('Error searching pokemons:', error.response?.data || error.message);
       dispatch({ type: SET_LOADING, payload: false });
-      dispatch({
-        type: SEARCH_POKEMONS,
-        payload: []
-      });
-      return [];
+      
+      // Si el error es 404 (no encontrado), devolver array vacío
+      if (error.response?.status === 404) {
+        dispatch({
+          type: SEARCH_POKEMONS,
+          payload: []
+        });
+        return [];
+      }
+      
+      // Para otros errores, lanzar excepción
+      throw error;
     }
   };
 };
-
 // Crear nuevo Pokémon
 export const createPokemon = (pokemonData) => {
   return async (dispatch) => {

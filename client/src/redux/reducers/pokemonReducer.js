@@ -43,11 +43,18 @@ const pokemonReducer = (state = initialState, action) => {
       };
     
     case SEARCH_POKEMONS:
-      return {
-        ...state,
-        displayedPokemons: action.payload,
-        loading: false
-      };
+  return {
+    ...state,
+    displayedPokemons: action.payload,
+    allPokemons: action.payload, // IMPORTANTE: actualizar también allPokemons
+    filters: {
+      type: 'all',
+      origin: 'all'
+    },
+    sortBy: 'none',
+    currentPage: 1,
+    loading: false
+  };
     
     case CREATE_POKEMON:
       return {
