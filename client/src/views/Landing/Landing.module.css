@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(145deg, #0a192f, #172a45); /* Azul noche tech */
+  background: linear-gradient(145deg, #0a192f, #172a45);
   background-image: url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
   background-size: cover;
   background-position: center;
@@ -17,20 +17,20 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(10, 25, 47, 0.7); /* Overlay azul oscuro */
+  background: rgba(10, 25, 47, 0.7);
 }
 
 .content {
   position: relative;
   z-index: 1;
   text-align: center;
-  color: #e0e8e8; /* Blanco azulado */
+  color: #e0e8e8;
   padding: 3rem;
-  background: rgba(54, 79, 119, 0.4); /* #364f77 con transparencia */
+  background: rgba(54, 79, 119, 0.4);
   border-radius: 15px;
-  border: 1px solid rgba(255, 20, 147, 0.3); /* Borde fucsia sutil */
+  border: 1px solid rgba(255, 20, 147, 0.3);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
-              0 0 30px rgba(255, 20, 147, 0.1); /* Glow fucsia */
+              0 0 30px rgba(255, 20, 147, 0.1);
   backdrop-filter: blur(10px);
 }
 
@@ -41,15 +41,29 @@
   filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5));
 }
 
+.titleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.pokeballLogo {
+  width: 70px;
+  height: 70px;
+  animation: float 3s ease-in-out infinite, 
+             glowPulse 2s ease-in-out infinite alternate;
+}
+
 .title {
   font-size: 3.5rem;
-  margin-bottom: 1rem;
-  background: linear-gradient(90deg, #4b7cb6, #e0e8e8, #4b7cb6);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 2px 10px rgba(255, 20, 147, 0.3);
+  /* TÍTULO BLANCO AL 90% */
+  color: rgba(255, 255, 255, 0.9); /* Blanco al 90% de opacidad */
+  text-shadow: 0 2px 10px rgba(255, 20, 147, 0.3),
+               0 0 20px rgba(255, 105, 180, 0.2);
   letter-spacing: 1px;
+  font-weight: 700;
 }
 
 .subtitle {
@@ -90,7 +104,6 @@
               0 0 10px rgba(255, 20, 147, 0.2);
 }
 
-/* Efecto de brillo fucsia en hover */
 .enterButton::after {
   content: '';
   position: absolute;
@@ -105,4 +118,27 @@
 
 .enterButton:hover::after {
   opacity: 1;
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0) rotate(0deg);
+    filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.7));
+  }
+  50% { 
+    transform: translateY(-15px) rotate(5deg);
+    filter: drop-shadow(0 0 15px rgba(255, 20, 147, 0.9));
+  }
+}
+
+@keyframes glowPulse {
+  0% {
+    filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.7))
+            drop-shadow(0 0 20px rgba(255, 20, 147, 0.3));
+  }
+  100% {
+    filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.9))
+            drop-shadow(0 0 30px rgba(255, 105, 180, 0.5))
+            drop-shadow(0 0 40px rgba(255, 20, 147, 0.3));
+  }
 }
