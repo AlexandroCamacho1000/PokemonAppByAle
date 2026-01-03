@@ -1,0 +1,108 @@
+.landingContainer {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(145deg, #0a192f, #172a45); /* Azul noche tech */
+  background-image: url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.landingContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10, 25, 47, 0.7); /* Overlay azul oscuro */
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: #e0e8e8; /* Blanco azulado */
+  padding: 3rem;
+  background: rgba(54, 79, 119, 0.4); /* #364f77 con transparencia */
+  border-radius: 15px;
+  border: 1px solid rgba(255, 20, 147, 0.3); /* Borde fucsia sutil */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+              0 0 30px rgba(255, 20, 147, 0.1); /* Glow fucsia */
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+  margin-bottom: 2rem;
+  filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5));
+}
+
+.title {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #4b7cb6, #e0e8e8, #4b7cb6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 10px rgba(255, 20, 147, 0.3);
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 3rem;
+  color: #a8c6ff; /* Azul claro */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.enterButton {
+  padding: 1rem 3rem;
+  font-size: 1.2rem;
+  background: linear-gradient(145deg, #4b7cb6, #364f77);
+  color: #e0e8e8;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 15px rgba(75, 124, 182, 0.4),
+              0 0 15px rgba(255, 20, 147, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.enterButton:hover {
+  background: linear-gradient(145deg, #364f77, #4b7cb6);
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(75, 124, 182, 0.6),
+              0 0 20px rgba(255, 20, 147, 0.4);
+}
+
+.enterButton:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(75, 124, 182, 0.4),
+              0 0 10px rgba(255, 20, 147, 0.2);
+}
+
+/* Efecto de brillo fucsia en hover */
+.enterButton::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,20,147,0.2) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.enterButton:hover::after {
+  opacity: 1;
+}
