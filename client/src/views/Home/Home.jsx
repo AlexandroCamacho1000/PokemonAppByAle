@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllPokemons } from '../../redux/actions/pokemonActions';
+import Card from '../../components/Card/Card';
+import SearchBar from '../../components/SearchBar/SearchBar'; // <-- Añade esta importación
 import styles from './Home.module.css';
 
 const Home = () => {
@@ -8,56 +10,57 @@ const Home = () => {
   const { displayedPokemons, loading } = useSelector(state => state.pokemon);
 
   useEffect(() => {
-    console.log('Home mounted, fetching pokemons...');
     dispatch(getAllPokemons());
   }, [dispatch]);
 
-  console.log('Pokemons in state:', displayedPokemons.length, displayedPokemons);
+  const handleRefresh = () => {
+    dispatch(getAllPokemons());
+  };
 
   if (loading) {
     return (
       <div className={styles.loading}>
         <div className={styles.spinner}></div>
         <h2>Cargando Pokémon...</h2>
+        <p>Preparando tu aventura Pokémon</p>
       </div>
     );
   }
 
   return (
     <div className={styles.home}>
-      <h1>Pokémon Home</h1>
-      <p className={styles.counter}>Total Pokémon: {displayedPokemons.length}</p>
-      
+      <div className={styles.headerContent}>
+        <h1>EXPLORA EL MUNDO POKÉMON</h1>
+        <div className={styles.counter}>
+          {displayedPokemons.length} Pokémon descubiertos
+        </div>
+        <p className={styles.subtitle}>
+          Descubre, colecciona y explora todas las criaturas del universo Pokémon
+        </p>
+      </div>
+
+      {/* AÑADE LA SEARCH BAR AQUÍ */}
+      <div className={styles.searchSection}>
+        <SearchBar />
+      </div>
+
       <div className={styles.pokemonGrid}>
         {displayedPokemons.length > 0 ? (
           displayedPokemons.map(pokemon => (
-            <div key={pokemon.id} className={styles.pokemonCard}>
-              <h3 className={styles.name}>{pokemon.name?.toUpperCase()}</h3>
-              <img 
-                src={pokemon.image || pokemon.sprites?.front_default || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png'} 
-                alt={pokemon.name}
-                className={styles.image}
-                onError={(e) => {
-                  e.target.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
-                }}
-              />
-              <div className={styles.stats}>
-                <p><strong>Attack:</strong> {pokemon.attack}</p>
-                <p><strong>HP:</strong> {pokemon.hp || pokemon.health || 50}</p>
-                <p><strong>Types:</strong> {
-                  pokemon.types ? 
-                  (Array.isArray(pokemon.types) ? 
-                    pokemon.types.map(t => typeof t === 'string' ? t : t.name).join(', ') 
-                    : pokemon.types) 
-                  : 'Unknown'
-                }</p>
-              </div>
+            <div key={pokemon.id} className={styles.cardContainer}>
+              <Card pokemon={pokemon} />
             </div>
           ))
         ) : (
           <div className={styles.noPokemons}>
-            <h2>No Pokémon found</h2>
-            <p>Try refreshing the page or check your backend connection</p>
+            <h2>¡Oh no! No hay Pokémon aquí</h2>
+            <p>
+              Parece que no hemos podido encontrar ningún Pokémon. 
+              Esto podría deberse a un problema de conexión o que la base de datos esté vacía.
+            </p>
+            <button className={styles.refreshButton} onClick={handleRefresh}>
+              🔄 Intentar de nuevo
+            </button>
           </div>
         )}
       </div>
