@@ -141,3 +141,19 @@
   font-weight: 600;
   border: 1px solid rgba(255, 20, 147, 0.4);
 }
+
+/* Agrega esto a tu Card.module.css existente */
+.card {
+  /* ... todos tus estilos existentes ... */
+  cursor: pointer; /* ¡IMPORTANTE! */
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: rgba(255, 20, 147, 0.6);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4),
+              0 0 30px rgba(255, 20, 147, 0.2);
+}
+
+/* Elimina .cardLink si existe, ya no lo necesitamos */
