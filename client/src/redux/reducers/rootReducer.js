@@ -4,7 +4,7 @@ import typesReducer from './typesReducer';
 
 const rootReducer = combineReducers({
   pokemon: pokemonReducer,
-  types: typesReducer,
+  types: typesReducer
 });
 
 export default rootReducer;
