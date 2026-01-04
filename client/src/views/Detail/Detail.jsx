@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPokemonDetail, clearDetail } from '../../redux/actions/pokemonActions';
+import { getPokemonDetail, clearDetail, deletePokemon } from '../../redux/actions/pokemonActions';
 import styles from './Detail.module.css';
 
 const Detail = () => {
@@ -13,13 +13,9 @@ const Detail = () => {
   const [activeTab, setActiveTab] = useState('stats');
 
   useEffect(() => {
-    // Limpiar detalle anterior al montar
     dispatch(clearDetail());
-    
-    // Obtener detalle del Pokémon
     dispatch(getPokemonDetail(id));
 
-    // Limpiar al desmontar
     return () => {
       dispatch(clearDetail());
     };
@@ -27,6 +23,19 @@ const Detail = () => {
 
   const handleGoBack = () => {
     history.goBack();
+  };
+
+  // Función para eliminar Pokémon
+  const handleDelete = async () => {
+    if (window.confirm(`¿Estás seguro de eliminar a ${pokemonDetail?.name}?`)) {
+      try {
+        await dispatch(deletePokemon(id));
+        alert(`¡${pokemonDetail?.name} eliminado exitosamente!`);
+        history.push('/home');
+      } catch (error) {
+        alert('Error al eliminar: ' + error.message);
+      }
+    }
   };
 
   const handleTypeColor = (type) => {
@@ -90,11 +99,15 @@ const Detail = () => {
     height = 0,
     weight = 0,
     types = [],
-    source = 'api'
+    source = 'api',
+    created = false
   } = pokemonDetail;
 
+  // Verificar si es pokémon creado por usuario
+  const isUserCreated = source === 'db' || created === true;
+
   // Calcular porcentajes para barras de estadísticas
-  const maxStat = 255; // Máximo posible en Pokémon
+  const maxStat = 255;
   const statPercentage = (stat) => Math.min((stat / maxStat) * 100, 100);
 
   return (
@@ -119,7 +132,7 @@ const Detail = () => {
           <span className={styles.pokemonId}>#{id}</span>
         </h1>
         <div className={styles.sourceBadge}>
-          {source === 'api' ? 'API Original' : 'Creado por mí'}
+          {isUserCreated ? 'Creado por mí' : 'API Original'}
         </div>
       </div>
 
@@ -140,7 +153,7 @@ const Detail = () => {
           
           {/* TIPOS */}
           <div className={styles.typesSection}>
-           <h3 className={styles.sectionTitle}>Tipo{types.length > 1 ? 's' : ''}</h3>
+            <h3 className={styles.sectionTitle}>Tipo{types.length > 1 ? 's' : ''}</h3>
             <div className={styles.typesContainer}>
               {types.map((type, index) => {
                 const typeName = typeof type === 'string' ? type : type.name;
@@ -246,7 +259,7 @@ const Detail = () => {
                   <div className={styles.infoItem}>
                     <span className={styles.infoLabel}>Origen</span>
                     <span className={styles.infoValue}>
-                      {source === 'api' ? 'API Pokémon' : 'Base de Datos'}
+                      {isUserCreated ? 'Base de Datos' : 'API Pokémon'}
                     </span>
                   </div>
                 </div>
@@ -255,11 +268,11 @@ const Detail = () => {
                   <h4 className={styles.descriptionTitle}>Acerca de {name}</h4>
                   <p className={styles.descriptionText}>
                     {name} es un Pokémon {types.map(t => typeof t === 'string' ? t : t.name).join('/')} 
-                    {source === 'api' 
-                      ? ' encontrado en la naturaleza Pokémon.' 
-                      : ' creado por entrenadores Pokémon.'}
+                    {isUserCreated 
+                      ? ' creado por entrenadores Pokémon.' 
+                      : ' encontrado en la naturaleza Pokémon.'}
                     Con {hp} puntos de salud y {attack} de ataque, es un formidable 
-                    {source === 'api' ? ' contendiente en batallas.' : ' compañero de aventuras.'}
+                    {isUserCreated ? ' compañero de aventuras.' : ' contendiente en batallas.'}
                   </p>
                 </div>
               </div>
@@ -277,8 +290,40 @@ const Detail = () => {
           🔍 Explorar más Pokémon
         </button>
       </div>
+
+      {/* BOTONES DE ADMINISTRACIÓN - SOLO SI ES CREADO POR USUARIO */}
+      {isUserCreated && (
+        <>
+          <div className={styles.adminButtons}>
+            <button 
+              onClick={() => history.push(`/edit/${id}`)}
+              className={styles.editButton}
+            >
+              ✏️ Editar Pokémon
+            </button>
+            
+            <button 
+              onClick={handleDelete}
+              className={styles.deleteButton}
+            >
+              🗑️ Eliminar Pokémon
+            </button>
+          </div>
+          <p className={styles.adminNotice}>
+            Este Pokémon fue creado por ti. Puedes editarlo o eliminarlo.
+          </p>
+        </>
+      )}
+
+      {/* MENSAJE PARA POKÉMON DE API */}
+      {!isUserCreated && (
+        <div className={styles.apiNotice}>
+          ℹ️ Este es un Pokémon original de la API. Solo los pokémons creados por usuarios pueden ser editados o eliminados.
+        </div>
+      )}
     </div>
   );
 };
 
+// ✅ ESTO DEBE ESTAR AL FINAL - EXPORT POR DEFECTO
 export default Detail;

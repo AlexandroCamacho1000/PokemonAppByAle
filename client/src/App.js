@@ -8,6 +8,7 @@ import Landing from './views/Landing/Landing';
 import Home from './views/Home/Home';
 import Detail from './views/Detail/Detail';
 import Form from './views/Form/Form';
+import EditForm from './views/EditForm/EditForm'; // ✅ Ya importado
 import Nav from './components/Nav/Nav';
 
 import './App.css';
@@ -37,10 +38,16 @@ function App() {
               <Detail />
             </Route>
             
-            {/* RUTA FORM */}
+            {/* RUTA CREATE FORM */}
             <Route path="/create">
               <Nav />
               <Form />
+            </Route>
+            
+            {/* ❌ FALTA ESTA RUTA - AÑÁDELA: */}
+            <Route path="/edit/:id">
+              <Nav />
+              <EditForm />
             </Route>
             
             {/* REDIRECCIÓN POR DEFECTO */}

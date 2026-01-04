@@ -3,6 +3,8 @@ import {
   GET_POKEMON_DETAIL,
   SEARCH_POKEMONS,
   CREATE_POKEMON,
+  UPDATE_POKEMON,     // <-- AÑADE ESTO
+  DELETE_POKEMON,     // <-- AÑADE ESTO
   FILTER_BY_TYPE,
   FILTER_BY_ORIGIN,
   SORT_POKEMONS,
@@ -43,24 +45,46 @@ const pokemonReducer = (state = initialState, action) => {
       };
     
     case SEARCH_POKEMONS:
-  return {
-    ...state,
-    displayedPokemons: action.payload,
-    allPokemons: action.payload, // IMPORTANTE: actualizar también allPokemons
-    filters: {
-      type: 'all',
-      origin: 'all'
-    },
-    sortBy: 'none',
-    currentPage: 1,
-    loading: false
-  };
+      return {
+        ...state,
+        displayedPokemons: action.payload,
+        allPokemons: action.payload,
+        filters: {
+          type: 'all',
+          origin: 'all'
+        },
+        sortBy: 'none',
+        currentPage: 1,
+        loading: false
+      };
     
     case CREATE_POKEMON:
       return {
         ...state,
         allPokemons: [...state.allPokemons, action.payload],
         displayedPokemons: [...state.displayedPokemons, action.payload]
+      };
+    
+    // ============ UPDATE POKEMON ============
+    case UPDATE_POKEMON:
+      return {
+        ...state,
+        allPokemons: state.allPokemons.map(p => 
+          p.id === action.payload.id ? action.payload : p
+        ),
+        displayedPokemons: state.displayedPokemons.map(p => 
+          p.id === action.payload.id ? action.payload : p
+        ),
+        pokemonDetail: action.payload
+      };
+    
+    // ============ DELETE POKEMON ============
+    case DELETE_POKEMON:
+      return {
+        ...state,
+        allPokemons: state.allPokemons.filter(p => p.id !== action.payload),
+        displayedPokemons: state.displayedPokemons.filter(p => p.id !== action.payload),
+        pokemonDetail: state.pokemonDetail?.id === action.payload ? {} : state.pokemonDetail
       };
     
     case FILTER_BY_TYPE: {

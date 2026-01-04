@@ -2,16 +2,25 @@ const { Pokemon, Type } = require('../../db');
 
 const update = async (id, updateData) => {
   try {
-    console.log(`Actualizando Pokemon ID: ${id}`);
+    console.log(`🔄 Actualizando Pokemon ID: ${id}`);
 
     // 1. Buscar Pokemon en DB
     const pokemon = await Pokemon.findByPk(id);
 
     if (!pokemon) {
-      throw new Error(`Pokemon con ID ${id} no encontrado en la base de datos`);
+      throw new Error(`Pokemon con ID ${id} no encontrado`);
     }
 
-    // 2. Actualizar campos básicos
+    // 2. ✅ VERIFICAR SI FUE CREADO POR USUARIO (igual que en DELETE)
+    // Como tu modelo no tiene campo 'created', verifica por UUID
+    const idStr = id.toString();
+    const isUUID = idStr.includes('-');
+    
+    if (!isUUID) {
+      throw new Error('Solo se pueden actualizar pokémons creados por usuarios');
+    }
+
+    // 3. Actualizar campos básicos
     const allowedFields = ['name', 'image', 'hp', 'attack', 'defense', 'speed', 'height', 'weight'];
     allowedFields.forEach(field => {
       if (updateData[field] !== undefined) {
@@ -21,7 +30,7 @@ const update = async (id, updateData) => {
 
     await pokemon.save();
 
-    // 3. Actualizar tipos si se proporcionan
+    // 4. Actualizar tipos si se proporcionan
     if (updateData.types && Array.isArray(updateData.types)) {
       const typeInstances = await Promise.all(
         updateData.types.map(async (typeName) => {
@@ -35,7 +44,7 @@ const update = async (id, updateData) => {
       await pokemon.setTypes(typeInstances);
     }
 
-    // 4. Obtener tipos actualizados
+    // 5. Obtener tipos actualizados
     const assignedTypes = await pokemon.getTypes();
     const typesNames = assignedTypes.map(t => t.name);
 
@@ -57,8 +66,8 @@ const update = async (id, updateData) => {
     };
 
   } catch (error) {
-    console.error(`Error actualizando Pokemon ${id}:`, error.message);
-    throw new Error(`Error al actualizar Pokemon: ${error.message}`);
+    console.error(`❌ Error actualizando Pokemon ${id}:`, error.message);
+    throw new Error(error.message); // Propaga mensaje original
   }
 };
 
