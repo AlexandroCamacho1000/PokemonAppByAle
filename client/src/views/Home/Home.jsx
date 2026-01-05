@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom'; // <-- Añadido
+import { Link } from 'react-router-dom';
 import { getAllPokemons } from '../../redux/actions/pokemonActions';
 import Card from '../../components/Card/Card';
 import SearchBar from '../../components/SearchBar/SearchBar';
@@ -25,44 +25,39 @@ const Home = () => {
     return (
       <div className={styles.loading}>
         <div className={styles.spinner}></div>
-        <h2>Cargando Pokémon...</h2>
-        <p>Preparando tu aventura Pokémon</p>
+        <h2>Loading Pokemon...</h2>
+        <p>Preparing your Pokemon adventure</p>
       </div>
     );
   }
 
   return (
     <div className={styles.home}>
-      {/* HEADER CON BOTÓN DE CREATE */}
       <div className={styles.header}>
         <div className={styles.headerContent}>
-          <h1>EXPLORA EL MUNDO POKÉMON</h1>
+          <h1>EXPLORE THE POKEMON WORLD</h1>
           <div className={styles.counter}>
-            {displayedPokemons.length} Pokémon descubiertos
+            {displayedPokemons.length} Pokemon discovered
           </div>
           <p className={styles.subtitle}>
-            Descubre, colecciona y explora todas las criaturas del universo Pokémon
+            Discover, collect and explore all creatures in the Pokemon universe
           </p>
         </div>
         
-        {/* BOTÓN PARA CREAR POKÉMON */}
         <Link to="/create" className={styles.createButton}>
           <span className={styles.plusIcon}>＋</span>
-          Crear Pokémon
+          Create Pokemon
         </Link>
       </div>
 
-      {/* SEARCH BAR */}
       <div className={styles.searchSection}>
         <SearchBar />
       </div>
 
-      {/* FILTROS */}
       <div className={styles.filtersSection}>
         <Filters />
       </div>
 
-      {/* GRID DE POKÉMON CON PAGINACIÓN */}
       <div className={styles.pokemonGrid}>
         {currentPokemons.length > 0 ? (
           currentPokemons.map(pokemon => (
@@ -72,25 +67,24 @@ const Home = () => {
           ))
         ) : (
           <div className={styles.noPokemons}>
-            <h2>¡Oh no! No hay Pokémon aquí</h2>
+            <h2>Oh no! No Pokemon here</h2>
             <p>
-              No se encontraron Pokémon con los filtros actuales.
-              Intenta cambiar los filtros o crea un nuevo Pokémon.
+              No Pokemon found with current filters.
+              Try changing filters or create a new Pokemon.
             </p>
             <button 
               className={styles.refreshButton} 
               onClick={() => dispatch(getAllPokemons())}
             >
-              🔄 Mostrar todos
+              🔄 Show all
             </button>
             <Link to="/create" className={styles.createButtonAlt}>
-              ✨ Crear nuevo Pokémon
+              ✨ Create new Pokemon
             </Link>
           </div>
         )}
       </div>
 
-      {/* PAGINACIÓN */}
       {displayedPokemons.length > pokemonsPerPage && (
         <div className={styles.paginationSection}>
           <Pagination />

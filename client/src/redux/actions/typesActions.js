@@ -4,7 +4,7 @@ const API_URL = 'http://localhost:3001';
 
 export const GET_TYPES = 'GET_TYPES';
 
-// Obtener todos los tipos
+// Get all Pokemon types
 export const getTypes = () => {
   return async (dispatch) => {
     try {

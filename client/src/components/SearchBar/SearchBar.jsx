@@ -17,21 +17,21 @@ const SearchBar = () => {
       return;
     }
 
-    setMessage('Buscando...');
+    setMessage('Searching...');
     
     try {
-      console.log('🔍 Buscando Pokémon:', searchTerm);
+      console.log('Searching Pokemon:', searchTerm);
       const results = await dispatch(searchPokemons(searchTerm.toLowerCase().trim()));
-      console.log('📦 Resultados recibidos:', results);
+      console.log('Search results:', results);
       
       if (results && results.length > 0) {
-        setMessage(`✅ Encontrados ${results.length} Pokémon`);
+        setMessage(`Found ${results.length} Pokemon`);
       } else {
-        setMessage('❌ No se encontró el Pokémon');
+        setMessage('Pokemon not found');
       }
     } catch (error) {
-      console.error('❌ Error en búsqueda:', error);
-      setMessage('❌ Error al buscar. Intenta de nuevo.');
+      console.error('Search error:', error);
+      setMessage('Search failed. Please try again.');
     }
   };
 
@@ -49,29 +49,24 @@ const SearchBar = () => {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Ej: pikachu, charizard, bulbasaur..."
+            placeholder="Ex: pikachu, charizard, bulbasaur..."
             className={styles.searchInput}
           />
           <div className={styles.buttonGroup}>
             <button type="submit" className={styles.searchButton}>
-              🔍 Buscar
+              Search
             </button>
             <button type="button" onClick={handleClear} className={styles.clearButton}>
-              ✕
+              Clear
             </button>
           </div>
         </div>
         
         {message && (
-          <div className={message.includes('✅') ? styles.successMessage : styles.errorMessage}>
+          <div className={message.includes('Found') ? styles.successMessage : styles.errorMessage}>
             {message}
           </div>
         )}
-        
-        <div className={styles.debugInfo}>
-          <p><strong>Prueba con:</strong> pikachu, charizard, bulbasaur</p>
-          <p><small>Abre la consola (F12) para ver los logs</small></p>
-        </div>
       </form>
     </div>
   );

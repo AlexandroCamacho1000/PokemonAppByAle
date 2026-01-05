@@ -10,7 +10,6 @@ const Nav = () => {
       </div>
       <div className={styles.links}>
         <Link to="/home">Home</Link>
-        {/* Eliminado: <Link to="/create">Create Pokémon</Link> */}
         <Link to="/">Landing</Link>
       </div>
     </nav>

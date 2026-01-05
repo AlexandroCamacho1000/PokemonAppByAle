@@ -9,9 +9,7 @@ function Form() {
     const dispatch = useDispatch();
     const history = useHistory();
     
-    // Obtener tipos desde Redux
     const types = useSelector(state => {
-        // Manejar diferentes estructuras posibles
         if (state.types?.allTypes) return state.types.allTypes;
         if (state.types?.types) return state.types.types;
         if (Array.isArray(state.types)) return state.types;
@@ -33,26 +31,24 @@ function Form() {
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     
-    // Cargar tipos al montar
     useEffect(() => {
         if (types.length === 0) {
             dispatch(getTypes());
         }
     }, [dispatch, types.length]);
     
-    // Validaciones
     const validateField = (name, value) => {
         let error = '';
         
         switch (name) {
             case 'name':
-                if (!value.trim()) error = 'Nombre requerido';
-                else if (value.length > 20) error = 'Máximo 20 caracteres';
+                if (!value.trim()) error = 'Name required';
+                else if (value.length > 20) error = 'Maximum 20 characters';
                 break;
                 
             case 'image':
-                if (!value.trim()) error = 'URL de imagen requerida';
-                else if (!value.startsWith('http')) error = 'Debe ser una URL válida';
+                if (!value.trim()) error = 'Image URL required';
+                else if (!value.startsWith('http')) error = 'Must be a valid URL';
                 break;
                 
             case 'hp':
@@ -60,20 +56,19 @@ function Form() {
             case 'defense':
                 const num = Number(value);
                 if (isNaN(num) || num < 1 || num > 255) {
-                    error = 'Debe ser entre 1 y 255';
+                    error = 'Must be between 1 and 255';
                 }
                 break;
                 
             case 'types':
-                if (value.length === 0) error = 'Selecciona al menos 1 tipo';
-                else if (value.length > 2) error = 'Máximo 2 tipos';
+                if (value.length === 0) error = 'Select at least 1 type';
+                else if (value.length > 2) error = 'Maximum 2 types';
                 break;
         }
         
         return error;
     };
     
-    // Manejar cambios en inputs
     const handleChange = (e) => {
         const { name, value } = e.target;
         setForm({
@@ -81,7 +76,6 @@ function Form() {
             [name]: value
         });
         
-        // Validar en tiempo real
         const error = validateField(name, value);
         setErrors(prev => ({
             ...prev,
@@ -89,7 +83,6 @@ function Form() {
         }));
     };
     
-    // Manejar selección de tipos
     const handleTypeToggle = (typeName) => {
         setForm(prev => {
             let newTypes;
@@ -98,10 +91,9 @@ function Form() {
             } else if (prev.types.length < 2) {
                 newTypes = [...prev.types, typeName];
             } else {
-                newTypes = prev.types; // No hacer nada si ya tiene 2
+                newTypes = prev.types;
             }
             
-            // Validar tipos
             const error = validateField('types', newTypes);
             setErrors(prevErrors => ({
                 ...prevErrors,
@@ -112,16 +104,13 @@ function Form() {
         });
     };
     
-    // Validar todo el formulario
     const validateForm = () => {
         const newErrors = {};
         
-        // Validar cada campo
         Object.keys(form).forEach(key => {
             if (key === 'speed' || key === 'height' || key === 'weight') {
-                // Campos opcionales, solo validar si tienen valor
                 if (form[key] && (form[key] < 0 || form[key] > 999)) {
-                    newErrors[key] = 'Valor inválido';
+                    newErrors[key] = 'Invalid value';
                 }
             } else if (key !== 'types') {
                 const error = validateField(key, form[key]);
@@ -129,7 +118,6 @@ function Form() {
             }
         });
         
-        // Validar tipos
         const typesError = validateField('types', form.types);
         if (typesError) newErrors.types = typesError;
         
@@ -137,19 +125,17 @@ function Form() {
         return Object.keys(newErrors).length === 0;
     };
     
-    // Enviar formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
         
         if (!validateForm()) {
-            alert('Por favor corrige los errores en el formulario');
+            alert('Please fix form errors');
             return;
         }
         
         setLoading(true);
         
         try {
-            // Preparar datos para enviar
             const pokemonData = {
                 name: form.name.trim(),
                 image: form.image.trim(),
@@ -159,22 +145,20 @@ function Form() {
                 types: form.types
             };
             
-            // Añadir campos opcionales solo si tienen valor
             if (form.speed) pokemonData.speed = Number(form.speed);
             if (form.height) pokemonData.height = Number(form.height);
             if (form.weight) pokemonData.weight = Number(form.weight);
             
-            console.log('Enviando Pokémon:', pokemonData);
+            console.log('Submitting Pokemon:', pokemonData);
             
-            // Enviar al backend
             await dispatch(createPokemon(pokemonData));
             
-            alert('¡Pokémon creado exitosamente!');
+            alert('Pokemon created successfully!');
             history.push('/home');
             
         } catch (error) {
-            console.error('Error al crear Pokémon:', error);
-            alert(`Error: ${error.response?.data?.error || error.message || 'Error desconocido'}`);
+            console.error('Error creating Pokemon:', error);
+            alert(`Error: ${error.response?.data?.error || error.message || 'Unknown error'}`);
         } finally {
             setLoading(false);
         }
@@ -182,29 +166,27 @@ function Form() {
     
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Crear Nuevo Pokémon</h1>
-            <p className={styles.subtitle}>Todos los campos marcados con * son obligatorios</p>
+            <h1 className={styles.title}>Create New Pokemon</h1>
+            <p className={styles.subtitle}>Fields marked with * are required</p>
             
             <form onSubmit={handleSubmit} className={styles.form}>
-                {/* NOMBRE */}
                 <div className={styles.formGroup}>
-                    <label htmlFor="name">Nombre *</label>
+                    <label htmlFor="name">Name *</label>
                     <input
                         type="text"
                         id="name"
                         name="name"
                         value={form.name}
                         onChange={handleChange}
-                        placeholder="Ej: Pikachu"
+                        placeholder="Ex: Pikachu"
                         className={errors.name ? styles.errorInput : ''}
                         disabled={loading}
                     />
                     {errors.name && <span className={styles.errorText}>{errors.name}</span>}
                 </div>
                 
-                {/* IMAGEN */}
                 <div className={styles.formGroup}>
-                    <label htmlFor="image">URL de la Imagen *</label>
+                    <label htmlFor="image">Image URL *</label>
                     <input
                         type="text"
                         id="image"
@@ -218,12 +200,11 @@ function Form() {
                     {errors.image && <span className={styles.errorText}>{errors.image}</span>}
                 </div>
                 
-                {/* STATS PRINCIPALES */}
                 <div className={styles.statsSection}>
-                    <h3>Estadísticas Principales *</h3>
+                    <h3>Main Statistics *</h3>
                     <div className={styles.statsGrid}>
                         <div className={styles.formGroup}>
-                            <label htmlFor="hp">Vida (HP)</label>
+                            <label htmlFor="hp">HP</label>
                             <input
                                 type="number"
                                 id="hp"
@@ -239,7 +220,7 @@ function Form() {
                         </div>
                         
                         <div className={styles.formGroup}>
-                            <label htmlFor="attack">Ataque</label>
+                            <label htmlFor="attack">Attack</label>
                             <input
                                 type="number"
                                 id="attack"
@@ -255,7 +236,7 @@ function Form() {
                         </div>
                         
                         <div className={styles.formGroup}>
-                            <label htmlFor="defense">Defensa</label>
+                            <label htmlFor="defense">Defense</label>
                             <input
                                 type="number"
                                 id="defense"
@@ -272,12 +253,11 @@ function Form() {
                     </div>
                 </div>
                 
-                {/* STATS OPCIONALES */}
                 <div className={styles.statsSection}>
-                    <h3>Estadísticas Opcionales</h3>
+                    <h3>Optional Statistics</h3>
                     <div className={styles.statsGrid}>
                         <div className={styles.formGroup}>
-                            <label htmlFor="speed">Velocidad</label>
+                            <label htmlFor="speed">Speed</label>
                             <input
                                 type="number"
                                 id="speed"
@@ -286,7 +266,7 @@ function Form() {
                                 onChange={handleChange}
                                 min="0"
                                 max="255"
-                                placeholder="Opcional"
+                                placeholder="Optional"
                                 className={errors.speed ? styles.errorInput : ''}
                                 disabled={loading}
                             />
@@ -294,7 +274,7 @@ function Form() {
                         </div>
                         
                         <div className={styles.formGroup}>
-                            <label htmlFor="height">Altura (cm)</label>
+                            <label htmlFor="height">Height (cm)</label>
                             <input
                                 type="number"
                                 id="height"
@@ -303,7 +283,7 @@ function Form() {
                                 onChange={handleChange}
                                 min="0"
                                 max="999"
-                                placeholder="Opcional"
+                                placeholder="Optional"
                                 className={errors.height ? styles.errorInput : ''}
                                 disabled={loading}
                             />
@@ -311,7 +291,7 @@ function Form() {
                         </div>
                         
                         <div className={styles.formGroup}>
-                            <label htmlFor="weight">Peso (kg)</label>
+                            <label htmlFor="weight">Weight (kg)</label>
                             <input
                                 type="number"
                                 id="weight"
@@ -320,7 +300,7 @@ function Form() {
                                 onChange={handleChange}
                                 min="0"
                                 max="999"
-                                placeholder="Opcional"
+                                placeholder="Optional"
                                 className={errors.weight ? styles.errorInput : ''}
                                 disabled={loading}
                             />
@@ -329,9 +309,8 @@ function Form() {
                     </div>
                 </div>
                 
-                {/* TIPOS */}
                 <div className={styles.typesSection}>
-                    <h3>Tipos * (Máximo 2)</h3>
+                    <h3>Types * (Maximum 2)</h3>
                     <div className={styles.typesContainer}>
                         {types.map(type => {
                             const typeName = typeof type === 'string' ? type : type.name;
@@ -352,18 +331,17 @@ function Form() {
                     </div>
                     {errors.types && <span className={styles.errorText}>{errors.types}</span>}
                     <div className={styles.selectedTypes}>
-                        <strong>Tipos seleccionados:</strong> {form.types.join(', ') || 'Ninguno'}
+                        <strong>Selected types:</strong> {form.types.join(', ') || 'None'}
                     </div>
                 </div>
                 
-                {/* BOTONES */}
                 <div className={styles.buttons}>
                     <button 
                         type="submit" 
                         className={styles.submitButton}
                         disabled={loading}
                     >
-                        {loading ? 'Creando...' : '✨ Crear Pokémon'}
+                        {loading ? 'Creating...' : '✨ Create Pokemon'}
                     </button>
                     
                     <button 
@@ -372,7 +350,7 @@ function Form() {
                         onClick={() => history.push('/home')}
                         disabled={loading}
                     >
-                        Cancelar
+                        Cancel
                     </button>
                 </div>
             </form>

@@ -13,12 +13,10 @@ const Filters = () => {
   const [localOrigin, setLocalOrigin] = useState(filters.origin);
   const [localSort, setLocalSort] = useState(sortBy);
 
-  // Cargar tipos cuando el componente se monta
   useEffect(() => {
     dispatch(getTypes());
   }, [dispatch]);
 
-  // Sincronizar con Redux
   useEffect(() => {
     setLocalType(filters.type);
     setLocalOrigin(filters.origin);
@@ -57,21 +55,19 @@ const Filters = () => {
 
   return (
     <div className={styles.filtersContainer}>
-      <h3 className={styles.filtersTitle}>🔧 Filtros y Ordenamiento</h3>
+      <h3 className={styles.filtersTitle}>Filters and Sorting</h3>
       
       <div className={styles.filtersGrid}>
-        {/* FILTRO POR TIPO */}
         <div className={styles.filterGroup}>
           <label className={styles.filterLabel}>
-            <span className={styles.labelIcon}>🎯</span>
-            Tipo de Pokémon
+            Pokemon Type
           </label>
           <select 
             value={localType} 
             onChange={handleTypeChange}
             className={styles.filterSelect}
           >
-            <option value="all">Todos los tipos</option>
+            <option value="all">All types</option>
             {allTypes.map((type) => (
               <option key={type.id || type} value={typeof type === 'string' ? type : type.name}>
                 {typeof type === 'string' ? type.charAt(0).toUpperCase() + type.slice(1) : type.name}
@@ -80,11 +76,9 @@ const Filters = () => {
           </select>
         </div>
 
-        {/* FILTRO POR ORIGEN */}
         <div className={styles.filterGroup}>
           <label className={styles.filterLabel}>
-            <span className={styles.labelIcon}>🌐</span>
-            Origen
+            Origin
           </label>
           <div className={styles.originButtons}>
             <button
@@ -94,7 +88,7 @@ const Filters = () => {
                 dispatch(filterByOrigin('all'));
               }}
             >
-              Todos
+              All
             </button>
             <button
               className={`${styles.originButton} ${localOrigin === 'api' ? styles.active : ''}`}
@@ -103,7 +97,7 @@ const Filters = () => {
                 dispatch(filterByOrigin('api'));
               }}
             >
-              API Original
+              Original API
             </button>
             <button
               className={`${styles.originButton} ${localOrigin === 'db' ? styles.active : ''}`}
@@ -112,46 +106,42 @@ const Filters = () => {
                 dispatch(filterByOrigin('db'));
               }}
             >
-              Creados por mí
+              Created by me
             </button>
           </div>
         </div>
 
-        {/* ORDENAMIENTO */}
         <div className={styles.filterGroup}>
           <label className={styles.filterLabel}>
-            <span className={styles.labelIcon}>📊</span>
-            Ordenar por
+            Sort by
           </label>
           <select 
             value={localSort} 
             onChange={handleSortChange}
             className={styles.filterSelect}
           >
-            <option value="none">Sin ordenar</option>
-            <option value="name-asc">Nombre (A-Z)</option>
-            <option value="name-desc">Nombre (Z-A)</option>
-            <option value="attack-asc">Ataque (Menor a Mayor)</option>
-            <option value="attack-desc">Ataque (Mayor a Menor)</option>
+            <option value="none">No sorting</option>
+            <option value="name-asc">Name (A-Z)</option>
+            <option value="name-desc">Name (Z-A)</option>
+            <option value="attack-asc">Attack (Low to High)</option>
+            <option value="attack-desc">Attack (High to Low)</option>
           </select>
         </div>
       </div>
 
-      {/* BOTÓN RESET */}
       {isFiltered && (
         <div className={styles.resetContainer}>
           <button 
             onClick={handleReset}
             className={styles.resetButton}
           >
-            <span className={styles.resetIcon}>🔄</span>
-            Limpiar todos los filtros
+            Clear all filters
           </button>
           <p className={styles.activeFilters}>
-            Filtros activos: 
-            {filters.type !== 'all' && ` Tipo: ${filters.type}`}
-            {filters.origin !== 'all' && ` Origen: ${filters.origin === 'api' ? 'API' : 'Base de Datos'}`}
-            {sortBy !== 'none' && ` Orden: ${getSortLabel(sortBy)}`}
+            Active filters: 
+            {filters.type !== 'all' && ` Type: ${filters.type}`}
+            {filters.origin !== 'all' && ` Origin: ${filters.origin === 'api' ? 'API' : 'Database'}`}
+            {sortBy !== 'none' && ` Sort: ${getSortLabel(sortBy)}`}
           </p>
         </div>
       )}
@@ -159,13 +149,12 @@ const Filters = () => {
   );
 };
 
-// Función helper para mostrar labels de ordenamiento
 const getSortLabel = (sortBy) => {
   switch(sortBy) {
-    case 'name-asc': return 'Nombre (A-Z)';
-    case 'name-desc': return 'Nombre (Z-A)';
-    case 'attack-asc': return 'Ataque ↑';
-    case 'attack-desc': return 'Ataque ↓';
+    case 'name-asc': return 'Name (A-Z)';
+    case 'name-desc': return 'Name (Z-A)';
+    case 'attack-asc': return 'Attack ↑';
+    case 'attack-desc': return 'Attack ↓';
     default: return '';
   }
 };

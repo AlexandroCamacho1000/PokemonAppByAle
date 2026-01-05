@@ -3,8 +3,8 @@ import {
   GET_POKEMON_DETAIL,
   SEARCH_POKEMONS,
   CREATE_POKEMON,
-  UPDATE_POKEMON,     // <-- AÑADE ESTO
-  DELETE_POKEMON,     // <-- AÑADE ESTO
+  UPDATE_POKEMON,
+  DELETE_POKEMON,
   FILTER_BY_TYPE,
   FILTER_BY_ORIGIN,
   SORT_POKEMONS,
@@ -65,7 +65,6 @@ const pokemonReducer = (state = initialState, action) => {
         displayedPokemons: [...state.displayedPokemons, action.payload]
       };
     
-    // ============ UPDATE POKEMON ============
     case UPDATE_POKEMON:
       return {
         ...state,
@@ -78,7 +77,6 @@ const pokemonReducer = (state = initialState, action) => {
         pokemonDetail: action.payload
       };
     
-    // ============ DELETE POKEMON ============
     case DELETE_POKEMON:
       return {
         ...state,

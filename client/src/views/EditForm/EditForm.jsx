@@ -10,17 +10,14 @@ function EditForm() {
     const history = useHistory();
     const dispatch = useDispatch();
     
-    // ✅ useRef para evitar memory leak
     const isMounted = useRef(true);
     
-    // Obtener datos
     const types = useSelector(state => {
         if (state.types?.allTypes) return state.types.allTypes;
         if (Array.isArray(state.types)) return state.types;
         return [];
     });
     
-    // Estado del formulario
     const [form, setForm] = useState({
         name: '',
         image: '',
@@ -36,7 +33,6 @@ function EditForm() {
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(true);
     
-    // 1. CARGAR DATOS INICIALES - CORREGIDO para memory leak
     useEffect(() => {
         isMounted.current = true;
         
@@ -45,35 +41,29 @@ function EditForm() {
             
             setLoading(true);
             try {
-                // Cargar tipos si no están
                 if (types.length === 0 && isMounted.current) {
                     await dispatch(getTypes());
                 }
                 
-                // Cargar pokémon desde la API
-                console.log(`🔍 Cargando Pokémon con ID: ${id}`);
+                console.log(`Loading Pokemon with ID: ${id}`);
                 const response = await fetch(`http://localhost:3001/pokemons/${id}`);
                 
                 if (!response.ok) {
-                    throw new Error('Pokémon no encontrado');
+                    throw new Error('Pokemon not found');
                 }
                 
                 const pokemon = await response.json();
-                console.log('📥 Pokémon cargado:', pokemon);
+                console.log('Pokemon loaded:', pokemon);
                 
-                // ✅ CORRECCIÓN IMPORTANTE: Verificar por UUID, no por campo 'created'
-                // Tu modelo NO tiene campo 'created', así que verificamos por tipo de ID
-                const isUUID = id.includes('-'); // UUID tiene guiones
+                const isUUID = id.includes('-');
                 
                 if (!isUUID) {
-                    alert('Solo puedes editar pokémons creados por ti');
+                    alert('Only user-created Pokemon can be edited');
                     history.push(`/detail/${id}`);
                     return;
                 }
                 
-                // ✅ Solo actualizar si componente está montado
                 if (isMounted.current) {
-                    // Llenar formulario
                     setForm({
                         name: pokemon.name || '',
                         image: pokemon.image || '',
@@ -96,7 +86,7 @@ function EditForm() {
                 
             } catch (error) {
                 if (isMounted.current) {
-                    console.error('Error cargando datos:', error);
+                    console.error('Error loading data:', error);
                     alert('Error: ' + error.message);
                     setLoading(false);
                     history.push('/home');
@@ -106,13 +96,11 @@ function EditForm() {
         
         loadData();
         
-        // ✅ CLEANUP FUNCTION para evitar memory leak
         return () => {
             isMounted.current = false;
         };
     }, [dispatch, id, history, types.length]);
     
-    // 2. MANEJAR CAMBIOS
     const handleChange = (e) => {
         const { name, value } = e.target;
         setForm({
@@ -132,27 +120,25 @@ function EditForm() {
         });
     };
     
-    // 3. VALIDACIÓN
     const validateForm = () => {
         const newErrors = {};
         
-        if (!form.name.trim()) newErrors.name = 'Nombre requerido';
-        if (!form.image.trim()) newErrors.image = 'Imagen requerida';
-        if (form.hp < 1 || form.hp > 255) newErrors.hp = 'HP entre 1-255';
-        if (form.attack < 1 || form.attack > 255) newErrors.attack = 'Ataque entre 1-255';
-        if (form.defense < 1 || form.defense > 255) newErrors.defense = 'Defensa entre 1-255';
-        if (form.types.length === 0) newErrors.types = 'Selecciona al menos 1 tipo';
+        if (!form.name.trim()) newErrors.name = 'Name required';
+        if (!form.image.trim()) newErrors.image = 'Image required';
+        if (form.hp < 1 || form.hp > 255) newErrors.hp = 'HP between 1-255';
+        if (form.attack < 1 || form.attack > 255) newErrors.attack = 'Attack between 1-255';
+        if (form.defense < 1 || form.defense > 255) newErrors.defense = 'Defense between 1-255';
+        if (form.types.length === 0) newErrors.types = 'Select at least 1 type';
         
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
     
-    // 4. ENVIAR FORMULARIO (UPDATE) - CORREGIDO
     const handleSubmit = async (e) => {
         e.preventDefault();
         
         if (!validateForm()) {
-            alert('Por favor corrige los errores');
+            alert('Please fix errors');
             return;
         }
         
@@ -166,35 +152,32 @@ function EditForm() {
                 types: form.types
             };
             
-            // Añadir campos opcionales
             if (form.speed) pokemonData.speed = Number(form.speed);
             if (form.height) pokemonData.height = Number(form.height);
             if (form.weight) pokemonData.weight = Number(form.weight);
             
-            console.log('📤 Enviando UPDATE para:', id);
-            console.log('📦 Datos:', pokemonData);
+            console.log('Sending UPDATE for:', id);
+            console.log('Data:', pokemonData);
             
-            // ✅ Usar la acción de Redux pero con mejor manejo
             const idString = id.toString();
             const result = await dispatch(updatePokemon(idString, pokemonData));
             
-            console.log('✅ Update exitoso:', result);
+            console.log('Update successful:', result);
             
-            alert('¡Pokémon actualizado exitosamente!');
+            alert('Pokemon updated successfully!');
             history.push(`/detail/${idString}`);
             
         } catch (error) {
-            console.error('❌ Error en handleSubmit:', error);
+            console.error('Error in handleSubmit:', error);
             
-            // ✅ MEJOR MANEJO DE ERRORES
-            let errorMessage = 'Error actualizando Pokémon';
+            let errorMessage = 'Error updating Pokemon';
             
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.response?.data?.error) {
                 errorMessage = error.response.data.error;
-            } else if (error.message.includes('Solo se pueden actualizar')) {
-                errorMessage = 'Solo puedes actualizar pokémons creados por ti';
+            } else if (error.message.includes('Only user-created Pokemon')) {
+                errorMessage = 'Only user-created Pokemon can be updated';
             } else if (error.message) {
                 errorMessage = error.message;
             }
@@ -207,35 +190,33 @@ function EditForm() {
         return (
             <div className={styles.loading}>
                 <div className={styles.spinner}></div>
-                <h2>Cargando Pokémon...</h2>
+                <h2>Loading Pokemon...</h2>
             </div>
         );
     }
     
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Editar Pokémon</h1>
-            <p className={styles.subtitle}>Modifica los datos de tu Pokémon</p>
+            <h1 className={styles.title}>Edit Pokemon</h1>
+            <p className={styles.subtitle}>Modify your Pokemon data</p>
             
             <form onSubmit={handleSubmit} className={styles.form}>
-                {/* NOMBRE */}
                 <div className={styles.formGroup}>
-                    <label htmlFor="name">Nombre *</label>
+                    <label htmlFor="name">Name *</label>
                     <input
                         type="text"
                         id="name"
                         name="name"
                         value={form.name}
                         onChange={handleChange}
-                        placeholder="Nombre del Pokémon"
+                        placeholder="Pokemon name"
                         className={errors.name ? styles.errorInput : ''}
                     />
                     {errors.name && <span className={styles.errorText}>{errors.name}</span>}
                 </div>
                 
-                {/* IMAGEN */}
                 <div className={styles.formGroup}>
-                    <label htmlFor="image">URL de la Imagen *</label>
+                    <label htmlFor="image">Image URL *</label>
                     <input
                         type="text"
                         id="image"
@@ -248,12 +229,11 @@ function EditForm() {
                     {errors.image && <span className={styles.errorText}>{errors.image}</span>}
                 </div>
                 
-                {/* STATS PRINCIPALES */}
                 <div className={styles.statsSection}>
-                    <h3>Estadísticas Principales *</h3>
+                    <h3>Main Statistics *</h3>
                     <div className={styles.statsGrid}>
                         <div className={styles.formGroup}>
-                            <label htmlFor="hp">Vida (HP)</label>
+                            <label htmlFor="hp">HP</label>
                             <input
                                 type="number"
                                 id="hp"
@@ -268,7 +248,7 @@ function EditForm() {
                         </div>
                         
                         <div className={styles.formGroup}>
-                            <label htmlFor="attack">Ataque</label>
+                            <label htmlFor="attack">Attack</label>
                             <input
                                 type="number"
                                 id="attack"
@@ -283,7 +263,7 @@ function EditForm() {
                         </div>
                         
                         <div className={styles.formGroup}>
-                            <label htmlFor="defense">Defensa</label>
+                            <label htmlFor="defense">Defense</label>
                             <input
                                 type="number"
                                 id="defense"
@@ -299,12 +279,11 @@ function EditForm() {
                     </div>
                 </div>
                 
-                {/* STATS OPCIONALES */}
                 <div className={styles.statsSection}>
-                    <h3>Estadísticas Opcionales</h3>
+                    <h3>Optional Statistics</h3>
                     <div className={styles.statsGrid}>
                         <div className={styles.formGroup}>
-                            <label htmlFor="speed">Velocidad</label>
+                            <label htmlFor="speed">Speed</label>
                             <input
                                 type="number"
                                 id="speed"
@@ -313,12 +292,12 @@ function EditForm() {
                                 onChange={handleChange}
                                 min="0"
                                 max="255"
-                                placeholder="Opcional"
+                                placeholder="Optional"
                             />
                         </div>
                         
                         <div className={styles.formGroup}>
-                            <label htmlFor="height">Altura (cm)</label>
+                            <label htmlFor="height">Height (cm)</label>
                             <input
                                 type="number"
                                 id="height"
@@ -327,12 +306,12 @@ function EditForm() {
                                 onChange={handleChange}
                                 min="0"
                                 max="999"
-                                placeholder="Opcional"
+                                placeholder="Optional"
                             />
                         </div>
                         
                         <div className={styles.formGroup}>
-                            <label htmlFor="weight">Peso (kg)</label>
+                            <label htmlFor="weight">Weight (kg)</label>
                             <input
                                 type="number"
                                 id="weight"
@@ -341,15 +320,14 @@ function EditForm() {
                                 onChange={handleChange}
                                 min="0"
                                 max="999"
-                                placeholder="Opcional"
+                                placeholder="Optional"
                             />
                         </div>
                     </div>
                 </div>
                 
-                {/* TIPOS */}
                 <div className={styles.typesSection}>
-                    <h3>Tipos * (Máximo 2)</h3>
+                    <h3>Types * (Maximum 2)</h3>
                     <div className={styles.typesContainer}>
                         {types.map(type => {
                             const typeName = typeof type === 'string' ? type : type.name;
@@ -369,21 +347,20 @@ function EditForm() {
                     </div>
                     {errors.types && <span className={styles.errorText}>{errors.types}</span>}
                     <div className={styles.selectedTypes}>
-                        <strong>Tipos seleccionados:</strong> {form.types.join(', ') || 'Ninguno'}
+                        <strong>Selected types:</strong> {form.types.join(', ') || 'None'}
                     </div>
                 </div>
                 
-                {/* BOTONES */}
                 <div className={styles.buttons}>
                     <button type="submit" className={styles.submitButton}>
-                        💾 Guardar Cambios
+                        💾 Save Changes
                     </button>
                     <button 
                         type="button" 
                         className={styles.cancelButton}
                         onClick={() => history.push(`/detail/${id}`)}
                     >
-                        Cancelar
+                        Cancel
                     </button>
                 </div>
             </form>

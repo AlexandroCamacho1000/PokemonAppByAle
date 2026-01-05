@@ -5,10 +5,8 @@ import styles from './Card.module.css';
 const Card = ({ pokemon }) => {
   const history = useHistory();
   
-  // Asegurar que tenemos datos
   if (!pokemon) return null;
 
-  // Extraer datos
   const {
     id,
     name = 'Unknown',
@@ -19,18 +17,15 @@ const Card = ({ pokemon }) => {
     defense = 0
   } = pokemon;
 
-  // Procesar tipos
   const typeNames = Array.isArray(types) 
     ? types.map(t => typeof t === 'string' ? t : t.name)
     : [];
 
-  // Handler para el clic
   const handleClick = () => {
-    console.log('🔗 NAVEGANDO A DETAIL:', id, name);
+    console.log('Navigating to detail:', id, name);
     history.push(`/detail/${id}`);
   };
 
-  // Handler para tecla Enter (accesibilidad)
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleClick();
@@ -44,7 +39,7 @@ const Card = ({ pokemon }) => {
       onKeyPress={handleKeyPress}
       role="button"
       tabIndex={0}
-      style={{ cursor: 'pointer' }} // Estilo inline por si acaso
+      style={{ cursor: 'pointer' }}
     >
       <div className={styles.imageContainer}>
         <img 

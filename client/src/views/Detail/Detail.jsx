@@ -25,15 +25,14 @@ const Detail = () => {
     history.goBack();
   };
 
-  // Función para eliminar Pokémon
   const handleDelete = async () => {
-    if (window.confirm(`¿Estás seguro de eliminar a ${pokemonDetail?.name}?`)) {
+    if (window.confirm(`Are you sure you want to delete ${pokemonDetail?.name}?`)) {
       try {
         await dispatch(deletePokemon(id));
-        alert(`¡${pokemonDetail?.name} eliminado exitosamente!`);
+        alert(`${pokemonDetail?.name} deleted successfully!`);
         history.push('/home');
       } catch (error) {
-        alert('Error al eliminar: ' + error.message);
+        alert('Error deleting: ' + error.message);
       }
     }
   };
@@ -66,7 +65,7 @@ const Detail = () => {
     return (
       <div className={styles.loadingContainer}>
         <div className={styles.loadingSpinner}></div>
-        <h2>Cargando Pokémon...</h2>
+        <h2>Loading Pokemon...</h2>
       </div>
     );
   }
@@ -74,21 +73,20 @@ const Detail = () => {
   if (!pokemonDetail || !pokemonDetail.id) {
     return (
       <div className={styles.errorContainer}>
-        <h2>¡Pokémon no encontrado!</h2>
-        <p>El Pokémon que buscas no existe o no pudo ser cargado.</p>
+        <h2>Pokemon not found!</h2>
+        <p>The Pokemon you're looking for doesn't exist or couldn't be loaded.</p>
         <div className={styles.errorButtons}>
           <button onClick={handleGoBack} className={styles.backButton}>
-            ↩ Volver atrás
+            ↩ Go back
           </button>
           <Link to="/home" className={styles.homeButton}>
-            🏠 Ir al Home
+            🏠 Go to Home
           </Link>
         </div>
       </div>
     );
   }
 
-  // Extraer datos con valores por defecto
   const {
     name = 'Unknown',
     image = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
@@ -103,42 +101,35 @@ const Detail = () => {
     created = false
   } = pokemonDetail;
 
-  // Verificar si es pokémon creado por usuario
   const isUserCreated = source === 'db' || created === true;
-
-  // Calcular porcentajes para barras de estadísticas
   const maxStat = 255;
   const statPercentage = (stat) => Math.min((stat / maxStat) * 100, 100);
 
   return (
     <div className={styles.detailContainer}>
-      {/* BOTONES DE NAVEGACIÓN */}
       <div className={styles.navigation}>
         <button onClick={handleGoBack} className={styles.navButton}>
-          ↩ Volver
+          ↩ Back
         </button>
         <Link to="/home" className={styles.navButton}>
           🏠 Home
         </Link>
         <Link to="/create" className={styles.navButton}>
-          ✨ Crear Pokémon
+          ✨ Create Pokemon
         </Link>
       </div>
 
-      {/* HEADER CON NOMBRE Y ID */}
       <div className={styles.pokemonHeader}>
         <h1 className={styles.pokemonName}>
           {name.toUpperCase()}
           <span className={styles.pokemonId}>#{id}</span>
         </h1>
         <div className={styles.sourceBadge}>
-          {isUserCreated ? 'Creado por mí' : 'API Original'}
+          {isUserCreated ? 'Created by me' : 'Original API'}
         </div>
       </div>
 
-      {/* CONTENIDO PRINCIPAL */}
       <div className={styles.contentGrid}>
-        {/* COLUMNA IZQUIERDA: IMAGEN Y TIPOS */}
         <div className={styles.leftColumn}>
           <div className={styles.imageWrapper}>
             <img 
@@ -151,9 +142,8 @@ const Detail = () => {
             />
           </div>
           
-          {/* TIPOS */}
           <div className={styles.typesSection}>
-            <h3 className={styles.sectionTitle}>Tipo{types.length > 1 ? 's' : ''}</h3>
+            <h3 className={styles.sectionTitle}>Type{types.length > 1 ? 's' : ''}</h3>
             <div className={styles.typesContainer}>
               {types.map((type, index) => {
                 const typeName = typeof type === 'string' ? type : type.name;
@@ -171,35 +161,32 @@ const Detail = () => {
           </div>
         </div>
 
-        {/* COLUMNA DERECHA: INFORMACIÓN DETALLADA */}
         <div className={styles.rightColumn}>
-          {/* TABS DE NAVEGACIÓN */}
           <div className={styles.tabs}>
             <button 
               className={`${styles.tab} ${activeTab === 'stats' ? styles.activeTab : ''}`}
               onClick={() => setActiveTab('stats')}
             >
-              📊 Estadísticas
+              📊 Statistics
             </button>
             <button 
               className={`${styles.tab} ${activeTab === 'info' ? styles.activeTab : ''}`}
               onClick={() => setActiveTab('info')}
             >
-              ℹ️ Información
+              ℹ️ Information
             </button>
           </div>
 
-          {/* CONTENIDO DE TABS */}
           <div className={styles.tabContent}>
             {activeTab === 'stats' ? (
               <div className={styles.statsSection}>
-                <h3 className={styles.sectionTitle}>Estadísticas Base</h3>
+                <h3 className={styles.sectionTitle}>Base Statistics</h3>
                 
                 {[
                   { label: 'HP', value: hp, color: '#ff6b6b' },
-                  { label: 'Ataque', value: attack, color: '#ff8e53' },
-                  { label: 'Defensa', value: defense, color: '#4d96ff' },
-                  { label: 'Velocidad', value: speed, color: '#82e882' }
+                  { label: 'Attack', value: attack, color: '#ff8e53' },
+                  { label: 'Defense', value: defense, color: '#4d96ff' },
+                  { label: 'Speed', value: speed, color: '#82e882' }
                 ].map((stat, index) => (
                   <div key={index} className={styles.statRow}>
                     <div className={styles.statLabel}>
@@ -219,60 +206,59 @@ const Detail = () => {
                   </div>
                 ))}
                 
-                {/* STATS SUMMARY */}
                 <div className={styles.statsSummary}>
                   <div className={styles.statTotal}>
-                    <span className={styles.totalLabel}>Total Base:</span>
+                    <span className={styles.totalLabel}>Base Total:</span>
                     <span className={styles.totalValue}>{hp + attack + defense + speed}</span>
                   </div>
                   <p className={styles.statsNote}>
-                    * Las estadísticas base determinan el potencial de batalla del Pokémon.
+                    * Base stats determine the Pokemon's battle potential.
                   </p>
                 </div>
               </div>
             ) : (
               <div className={styles.infoSection}>
-                <h3 className={styles.sectionTitle}>Información Física</h3>
+                <h3 className={styles.sectionTitle}>Physical Information</h3>
                 
                 <div className={styles.infoGrid}>
                   <div className={styles.infoItem}>
-                    <span className={styles.infoLabel}>Altura</span>
+                    <span className={styles.infoLabel}>Height</span>
                     <span className={styles.infoValue}>
-                      {height ? `${height / 10} m` : 'Desconocida'}
+                      {height ? `${height / 10} m` : 'Unknown'}
                     </span>
                   </div>
                   
                   <div className={styles.infoItem}>
-                    <span className={styles.infoLabel}>Peso</span>
+                    <span className={styles.infoLabel}>Weight</span>
                     <span className={styles.infoValue}>
-                      {weight ? `${weight / 10} kg` : 'Desconocido'}
+                      {weight ? `${weight / 10} kg` : 'Unknown'}
                     </span>
                   </div>
                   
                   <div className={styles.infoItem}>
-                    <span className={styles.infoLabel}>Velocidad</span>
+                    <span className={styles.infoLabel}>Speed</span>
                     <span className={styles.infoValue}>
-                      {speed || 'Desconocida'}
+                      {speed || 'Unknown'}
                     </span>
                   </div>
                   
                   <div className={styles.infoItem}>
-                    <span className={styles.infoLabel}>Origen</span>
+                    <span className={styles.infoLabel}>Origin</span>
                     <span className={styles.infoValue}>
-                      {isUserCreated ? 'Base de Datos' : 'API Pokémon'}
+                      {isUserCreated ? 'Database' : 'Pokemon API'}
                     </span>
                   </div>
                 </div>
                 
                 <div className={styles.description}>
-                  <h4 className={styles.descriptionTitle}>Acerca de {name}</h4>
+                  <h4 className={styles.descriptionTitle}>About {name}</h4>
                   <p className={styles.descriptionText}>
-                    {name} es un Pokémon {types.map(t => typeof t === 'string' ? t : t.name).join('/')} 
+                    {name} is a {types.map(t => typeof t === 'string' ? t : t.name).join('/')} 
                     {isUserCreated 
-                      ? ' creado por entrenadores Pokémon.' 
-                      : ' encontrado en la naturaleza Pokémon.'}
-                    Con {hp} puntos de salud y {attack} de ataque, es un formidable 
-                    {isUserCreated ? ' compañero de aventuras.' : ' contendiente en batallas.'}
+                      ? ' Pokemon created by trainers.' 
+                      : ' Pokemon found in the wild.'}
+                    With {hp} health points and {attack} attack, it's a formidable 
+                    {isUserCreated ? ' adventure companion.' : ' battle contender.'}
                   </p>
                 </div>
               </div>
@@ -281,17 +267,15 @@ const Detail = () => {
         </div>
       </div>
 
-      {/* BOTONES DE ACCIÓN */}
       <div className={styles.actionButtons}>
         <Link to={`/create`} className={styles.createButton}>
-          ✨ Crear Pokémon Similar
+          ✨ Create Similar Pokemon
         </Link>
         <button onClick={handleGoBack} className={styles.exploreButton}>
-          🔍 Explorar más Pokémon
+          🔍 Explore more Pokemon
         </button>
       </div>
 
-      {/* BOTONES DE ADMINISTRACIÓN - SOLO SI ES CREADO POR USUARIO */}
       {isUserCreated && (
         <>
           <div className={styles.adminButtons}>
@@ -299,31 +283,29 @@ const Detail = () => {
               onClick={() => history.push(`/edit/${id}`)}
               className={styles.editButton}
             >
-              ✏️ Editar Pokémon
+              ✏️ Edit Pokemon
             </button>
             
             <button 
               onClick={handleDelete}
               className={styles.deleteButton}
             >
-              🗑️ Eliminar Pokémon
+              🗑️ Delete Pokemon
             </button>
           </div>
           <p className={styles.adminNotice}>
-            Este Pokémon fue creado por ti. Puedes editarlo o eliminarlo.
+            This Pokemon was created by you. You can edit or delete it.
           </p>
         </>
       )}
 
-      {/* MENSAJE PARA POKÉMON DE API */}
       {!isUserCreated && (
         <div className={styles.apiNotice}>
-          ℹ️ Este es un Pokémon original de la API. Solo los pokémons creados por usuarios pueden ser editados o eliminados.
+          ℹ️ This is an original Pokemon from the API. Only user-created Pokemon can be edited or deleted.
         </div>
       )}
     </div>
   );
 };
 
-// ✅ ESTO DEBE ESTAR AL FINAL - EXPORT POR DEFECTO
 export default Detail;

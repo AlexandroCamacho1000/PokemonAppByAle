@@ -1,13 +1,11 @@
 import axios from 'axios';
 
-// URL base
+// Base URL
 const API_URL = 'http://localhost:3001';
 
-// Action Types - AÑADE ESTOS
+// Action Types
 export const UPDATE_POKEMON = 'UPDATE_POKEMON';
 export const DELETE_POKEMON = 'DELETE_POKEMON';
-
-// Action Types existentes...
 export const GET_ALL_POKEMONS = 'GET_ALL_POKEMONS';
 export const GET_POKEMON_DETAIL = 'GET_POKEMON_DETAIL';
 export const SEARCH_POKEMONS = 'SEARCH_POKEMONS';
@@ -19,18 +17,17 @@ export const SET_LOADING = 'SET_LOADING';
 export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 export const CLEAR_DETAIL = 'CLEAR_DETAIL';
 
-// ============ UPDATE POKEMON ============
+// Update Pokemon action
 export const updatePokemon = (id, pokemonData) => {
   return async (dispatch) => {
     try {
       dispatch({ type: SET_LOADING, payload: true });
       
-      console.log('📤 Enviando UPDATE para ID:', id);
+      console.log('Sending UPDATE for ID:', id);
       
-      // ✅ QUITA LA VERIFICACIÓN DE 'created' aquí también
       const { data } = await axios.put(`${API_URL}/pokemons/${id}`, pokemonData);
       
-      console.log('✅ Update exitoso:', data);
+      console.log('Update successful:', data);
       
       dispatch({
         type: UPDATE_POKEMON,
@@ -41,30 +38,30 @@ export const updatePokemon = (id, pokemonData) => {
       return data;
       
     } catch (error) {
-      console.error('❌ Error en update:', error.response?.data || error.message);
+      console.error('Error in update:', error.response?.data || error.message);
       dispatch({ type: SET_LOADING, payload: false });
       throw error;
     }
   };
-};// ============ DELETE POKEMON ============
+};
+
+// Delete Pokemon action
 export const deletePokemon = (id) => {
   return async (dispatch) => {
     try {
       dispatch({ type: SET_LOADING, payload: true });
       
-      console.log('🚨 DELETE ACTION INICIADA 🚨');
-      console.log('📌 ID recibido:', id);
-      console.log('📌 Tipo de ID:', typeof id);
+      console.log('DELETE action initiated');
+      console.log('ID received:', id);
+      console.log('ID type:', typeof id);
       
-      // ✅ Convierte a string para asegurar
       const idString = id.toString();
-      console.log('📌 ID como string:', idString);
-      console.log('🔗 URL completa:', `${API_URL}/pokemons/${idString}`);
+      console.log('ID as string:', idString);
+      console.log('Full URL:', `${API_URL}/pokemons/${idString}`);
       
-      // ✅ LLAMA DIRECTAMENTE AL DELETE
       const response = await axios.delete(`${API_URL}/pokemons/${idString}`);
       
-      console.log('🎉 DELETE EXITOSO:', response.data);
+      console.log('DELETE successful:', response.data);
       
       dispatch({
         type: DELETE_POKEMON,
@@ -75,7 +72,7 @@ export const deletePokemon = (id) => {
       return response.data;
       
     } catch (error) {
-      console.error('💥 ERROR EN DELETE ACTION:', {
+      console.error('Error in DELETE action:', {
         message: error.message,
         response: error.response?.data,
         status: error.response?.status,
@@ -87,9 +84,8 @@ export const deletePokemon = (id) => {
     }
   };
 };
-// ============ FUNCIONES EXISTENTES (MANTENER) ============
 
-// Obtener todos los Pokémon
+// Get all Pokemon
 export const getAllPokemons = () => {
   return async (dispatch) => {
     try {
@@ -113,7 +109,7 @@ export const getAllPokemons = () => {
   };
 };
 
-// Obtener detalle de un Pokémon por ID
+// Get Pokemon detail by ID
 export const getPokemonDetail = (id) => {
   return async (dispatch) => {
     try {
@@ -137,15 +133,15 @@ export const getPokemonDetail = (id) => {
   };
 };
 
-// Buscar Pokémon por nombre
+// Search Pokemon by name
 export const searchPokemons = (name) => {
   return async (dispatch) => {
     try {
       dispatch({ type: SET_LOADING, payload: true });
       
-      console.log(`Buscando: ${name}`);
+      console.log(`Searching: ${name}`);
       const { data } = await axios.get(`${API_URL}/pokemons/name?name=${name}`);
-      console.log('Resultado API:', data);
+      console.log('API result:', data);
       
       const pokemons = Array.isArray(data) ? data : [data];
       
@@ -174,7 +170,7 @@ export const searchPokemons = (name) => {
   };
 };
 
-// Crear nuevo Pokémon
+// Create new Pokemon
 export const createPokemon = (pokemonData) => {
   return async (dispatch) => {
     try {
@@ -194,7 +190,7 @@ export const createPokemon = (pokemonData) => {
   };
 };
 
-// Actions para filtros y ordenamiento
+// Filter and sort actions
 export const filterByType = (type) => ({
   type: FILTER_BY_TYPE,
   payload: type
