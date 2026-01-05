@@ -3,9 +3,9 @@ const { Pokemon, Type } = require('../../db');
 
 const getAll = async () => {
   try {
-    console.log('Obteniendo todos los Pokemon...');
+    console.log('Fetching all Pokemon...');
 
-    // 1. Obtener de la API (40 Pokémon)
+    // 1. Fetch from API (40 Pokemon)
     const apiResponse = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=40');
     
     const apiPokemons = await Promise.all(
@@ -28,16 +28,16 @@ const getAll = async () => {
             source: 'api'
           };
         } catch (error) {
-          console.error(`Error obteniendo ${pokemon.name}:`, error.message);
+          console.error(`Error fetching ${pokemon.name}:`, error.message);
           return null;
         }
       })
     );
 
-    // Filtrar nulos
+    // Filter out null values
     const validApiPokemons = apiPokemons.filter(p => p !== null);
 
-    // 2. Obtener de la base de datos
+    // 2. Fetch from database
     const dbPokemons = await Pokemon.findAll({
       include: {
         model: Type,
@@ -60,7 +60,7 @@ const getAll = async () => {
       source: 'db'
     }));
 
-    // 3. Combinar resultados
+    // 3. Combine results
     const allPokemons = [...validApiPokemons, ...formattedDbPokemons];
 
     console.log(`Total: ${allPokemons.length} Pokemon (API: ${validApiPokemons.length}, DB: ${formattedDbPokemons.length})`);
@@ -68,8 +68,8 @@ const getAll = async () => {
     return allPokemons;
 
   } catch (error) {
-    console.error('Error en getAll:', error.message);
-    throw new Error('Error al obtener Pokemon: ' + error.message);
+    console.error('Error in getAll:', error.message);
+    throw new Error('Error fetching Pokemon: ' + error.message);
   }
 };
 

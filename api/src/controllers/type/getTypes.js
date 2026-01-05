@@ -1,37 +1,36 @@
 const axios = require('axios');
 
-// Importación CORRECTA desde db.js
-const db = require('../../db');  // Solo 2 niveles, no 3
+const db = require('../../db');
 const Type = db.Type;
 
 const getTypes = async () => {
   try {
-    console.log('Obteniendo tipos de Pokemon...');
+    console.log('Fetching Pokemon types...');
 
-    // 1. Primero verificar si ya existen en la base de datos
+    // Check if types already exist in database
     const dbTypes = await Type.findAll();
 
     if (dbTypes.length > 0) {
-      console.log(dbTypes.length + ' tipos encontrados en DB');
+      console.log(dbTypes.length + ' types found in database');
       return dbTypes.map(type => ({
         id: type.id,
         name: type.name
       }));
     }
 
-    // 2. Si no hay en DB, obtener de la API
-    console.log('Obteniendo tipos de PokeAPI...');
+    // If no types in database, fetch from API
+    console.log('Fetching types from PokeAPI...');
     const response = await axios.get('https://pokeapi.co/api/v2/type');
     const apiTypes = response.data.results;
 
-    // 3. Guardar en la base de datos
+    // Save types to database
     const typesToCreate = apiTypes.map(type => ({
       name: type.name
     }));
 
     const createdTypes = await Type.bulkCreate(typesToCreate);
 
-    console.log(createdTypes.length + ' tipos guardados en DB');
+    console.log(createdTypes.length + ' types saved to database');
 
     return createdTypes.map(type => ({
       id: type.id,
@@ -39,8 +38,8 @@ const getTypes = async () => {
     }));
 
   } catch (error) {
-    console.error('Error obteniendo tipos:', error.message);
-    throw new Error('Error al obtener tipos: ' + error.message);
+    console.error('Error fetching types:', error.message);
+    throw new Error('Error fetching types: ' + error.message);
   }
 };
 

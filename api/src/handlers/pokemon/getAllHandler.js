@@ -6,9 +6,9 @@ const getAllHandler = async (req, res) => {
     const pokemons = await getAll();
     res.status(200).json(pokemons);
   } catch (error) {
-    console.error('Error en /pokemons:', error.message);
+    console.error('Error in /pokemons:', error.message);
     res.status(500).json({ 
-      error: 'Error al obtener Pokemon',
+      error: 'Error fetching Pokemon',
       message: error.message 
     });
   }

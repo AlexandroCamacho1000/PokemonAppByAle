@@ -3,10 +3,10 @@ const { Pokemon, Type } = require('../../db');
 
 const getById = async (id) => {
   try {
-    console.log(`Buscando Pokemon con ID: ${id}`);
+    console.log(`Searching for Pokemon with ID: ${id}`);
 
-    // Intentar buscar en la base de datos primero (si es UUID)
-    if (id.includes('-')) { // UUID tiene guiones
+    // Try database first if ID is UUID format
+    if (id.includes('-')) {
       const dbPokemon = await Pokemon.findByPk(id, {
         include: {
           model: Type,
@@ -16,7 +16,7 @@ const getById = async (id) => {
       });
 
       if (dbPokemon) {
-        console.log(`Pokemon encontrado en DB: ${dbPokemon.name}`);
+        console.log(`Pokemon found in database: ${dbPokemon.name}`);
         return {
           id: dbPokemon.id,
           name: dbPokemon.name,
@@ -33,7 +33,7 @@ const getById = async (id) => {
       }
     }
 
-    // Si no está en DB o no es UUID, buscar en la API
+    // If not in database or not UUID, try API
     try {
       const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
       const data = response.data;
@@ -52,11 +52,11 @@ const getById = async (id) => {
         source: 'api'
       };
 
-      console.log(`Pokemon encontrado en API: ${apiPokemon.name}`);
+      console.log(`Pokemon found in API: ${apiPokemon.name}`);
       return apiPokemon;
 
     } catch (apiError) {
-      // Si no encuentra en API, verificar si es número y buscar en DB
+      // If not found in API and ID is numeric, check database
       const numericId = parseInt(id);
       if (!isNaN(numericId)) {
         const dbPokemon = await Pokemon.findByPk(id, {
@@ -80,12 +80,12 @@ const getById = async (id) => {
         }
       }
       
-      throw new Error(`Pokemon con ID ${id} no encontrado`);
+      throw new Error(`Pokemon with ID ${id} not found`);
     }
 
   } catch (error) {
-    console.error(`Error buscando Pokemon ID ${id}:`, error.message);
-    throw new Error(`Error al buscar Pokemon: ${error.message}`);
+    console.error(`Error searching for Pokemon ID ${id}:`, error.message);
+    throw new Error(`Error searching Pokemon: ${error.message}`);
   }
 };
 

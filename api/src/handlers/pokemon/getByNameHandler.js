@@ -6,8 +6,8 @@ const getByNameHandler = async (req, res) => {
     
     if (!name) {
       return res.status(400).json({ 
-        error: 'Nombre requerido',
-        message: 'Debe proporcionar un parámetro "name" en la consulta'
+        error: 'Name required',
+        message: 'Query parameter "name" must be provided'
       });
     }
 
@@ -19,26 +19,26 @@ const getByNameHandler = async (req, res) => {
       res.status(200).json(result);
     } else {
       res.status(404).json({ 
-        error: 'Pokemon no encontrado',
-        message: `No se encontró un Pokemon con el nombre "${name}"`
+        error: 'Pokemon not found',
+        message: `No Pokemon found with name "${name}"`
       });
     }
   } catch (error) {
-    console.error(`Error en /pokemons/name:`, error.message);
+    console.error(`Error in /pokemons/name:`, error.message);
     
-    if (error.message.includes('no encontrado')) {
+    if (error.message.includes('not found')) {
       res.status(404).json({ 
-        error: 'Pokemon no encontrado',
+        error: 'Pokemon not found',
         message: error.message
       });
-    } else if (error.message.includes('Debe proporcionar')) {
+    } else if (error.message.includes('must be provided')) {
       res.status(400).json({ 
-        error: 'Solicitud incorrecta',
+        error: 'Bad request',
         message: error.message
       });
     } else {
       res.status(500).json({ 
-        error: 'Error al buscar Pokemon',
+        error: 'Error searching Pokemon',
         message: error.message
       });
     }

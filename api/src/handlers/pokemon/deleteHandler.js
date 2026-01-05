@@ -11,16 +11,16 @@ const deleteHandler = async (req, res) => {
     res.status(200).json(result);
 
   } catch (error) {
-    console.error(`Error en DELETE /pokemons/${req.params.id}:`, error.message);
+    console.error(`Error in DELETE /pokemons/${req.params.id}:`, error.message);
     
-    if (error.message.includes('no encontrado')) {
+    if (error.message.includes('not found')) {
       res.status(404).json({
-        error: 'Pokemon no encontrado',
+        error: 'Pokemon not found',
         message: error.message
       });
     } else {
       res.status(500).json({
-        error: 'Error al eliminar Pokemon',
+        error: 'Error deleting Pokemon',
         message: error.message
       });
     }

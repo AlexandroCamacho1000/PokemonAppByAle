@@ -11,21 +11,21 @@ const getByIdHandler = async (req, res) => {
       res.status(200).json(pokemon);
     } else {
       res.status(404).json({ 
-        error: 'Pokemon no encontrado',
-        message: `No se encontró un Pokemon con ID ${id}`
+        error: 'Pokemon not found',
+        message: `No Pokemon found with ID ${id}`
       });
     }
   } catch (error) {
-    console.error(`Error en /pokemons/${req.params.id}:`, error.message);
+    console.error(`Error in /pokemons/${req.params.id}:`, error.message);
     
-    if (error.message.includes('no encontrado')) {
+    if (error.message.includes('not found')) {
       res.status(404).json({ 
-        error: 'Pokemon no encontrado',
+        error: 'Pokemon not found',
         message: error.message
       });
     } else {
       res.status(500).json({ 
-        error: 'Error al buscar Pokemon',
+        error: 'Error searching Pokemon',
         message: error.message
       });
     }

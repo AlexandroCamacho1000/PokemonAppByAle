@@ -2,43 +2,42 @@ const { Pokemon, Type } = require('../../db');
 
 const create = async (pokemonData) => {
   try {
-    console.log('Creando nuevo Pokemon:', pokemonData?.name);
+    console.log('Creating new Pokemon:', pokemonData?.name);
 
-    // Validaciones básicas
+    // Basic validations
     if (!pokemonData || !pokemonData.name || !pokemonData.image || !pokemonData.hp || 
         !pokemonData.attack || !pokemonData.defense) {
-      throw new Error('Faltan datos requeridos: name, image, hp, attack, defense');
+      throw new Error('Missing required data: name, image, hp, attack, defense');
     }
 
-    // Validar y normalizar tipos
+    // Validate and normalize types
     if (!pokemonData.types) {
-      throw new Error('Debe proporcionar al menos un tipo');
+      throw new Error('At least one type must be provided');
     }
     
-    // Asegurar que types sea un array
     let typesArray = pokemonData.types;
     if (!Array.isArray(typesArray)) {
       if (typeof typesArray === 'string') {
         typesArray = [typesArray];
       } else {
-        throw new Error('El campo "types" debe ser un array o string');
+        throw new Error('The "types" field must be an array or string');
       }
     }
 
     if (typesArray.length === 0) {
-      throw new Error('Debe proporcionar al menos un tipo');
+      throw new Error('At least one type must be provided');
     }
 
-    // Verificar si el Pokemon ya existe
+    // Check if Pokemon already exists
     const existingPokemon = await Pokemon.findOne({
       where: { name: pokemonData.name }
     });
 
     if (existingPokemon) {
-      throw new Error(`Ya existe un Pokemon con el nombre "${pokemonData.name}"`);
+      throw new Error(`A Pokemon with name "${pokemonData.name}" already exists`);
     }
 
-    // Crear el Pokemon
+    // Create Pokemon
     const newPokemon = await Pokemon.create({
       name: pokemonData.name,
       image: pokemonData.image,
@@ -50,7 +49,7 @@ const create = async (pokemonData) => {
       weight: pokemonData.weight || null,
     });
 
-    // Buscar o crear los tipos
+    // Find or create types
     const typeInstances = await Promise.all(
       typesArray.map(async (typeName) => {
         const [type] = await Type.findOrCreate({
@@ -60,10 +59,10 @@ const create = async (pokemonData) => {
       })
     );
 
-    // Asociar tipos al Pokemon
+    // Associate types with Pokemon
     await newPokemon.setTypes(typeInstances);
 
-    // Obtener el Pokemon con sus tipos (reload con include)
+    // Get Pokemon with types (reload with include)
     const createdPokemon = await Pokemon.findByPk(newPokemon.id, {
       include: {
         model: Type,
@@ -72,8 +71,8 @@ const create = async (pokemonData) => {
       }
     });
 
-    console.log(`✅ Pokemon creado: ${createdPokemon.name}`);
-    console.log('Tipos asociados:', createdPokemon.types?.length || 0);
+    console.log(`Pokemon created: ${createdPokemon.name}`);
+    console.log('Associated types:', createdPokemon.types?.length || 0);
 
     return {
       id: createdPokemon.id,
@@ -90,8 +89,8 @@ const create = async (pokemonData) => {
     };
 
   } catch (error) {
-    console.error('Error creando Pokemon:', error.message);
-    throw new Error(`Error al crear Pokemon: ${error.message}`);
+    console.error('Error creating Pokemon:', error.message);
+    throw new Error(`Error creating Pokemon: ${error.message}`);
   }
 };
 

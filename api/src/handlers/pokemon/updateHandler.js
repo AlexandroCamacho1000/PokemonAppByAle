@@ -4,14 +4,14 @@ const updateHandler = async (req, res) => {
   const { id } = req.params;
   
   try {
-    console.log(`🔄 PUT /pokemons/${id}`);
-    console.log('📦 Datos recibidos:', req.body);
+    console.log(`PUT /pokemons/${id}`);
+    console.log('Data received:', req.body);
 
     if (!req.body || Object.keys(req.body).length === 0) {
       return res.status(400).json({
         success: false,
-        error: 'Datos requeridos',
-        message: 'Debe enviar los campos a actualizar'
+        error: 'Data required',
+        message: 'Fields to update must be provided'
       });
     }
 
@@ -19,37 +19,36 @@ const updateHandler = async (req, res) => {
     
     res.status(200).json({
       success: true,
-      message: '✅ Pokemon actualizado exitosamente',
+      message: 'Pokemon updated successfully',
       pokemon: updatedPokemon
     });
 
   } catch (error) {
-    console.error(`❌ Error en PUT /pokemons/${id}:`, error.message);
+    console.error(`Error in PUT /pokemons/${id}:`, error.message);
     
-    // ✅ MANEJO ESPECÍFICO DE ERRORES
-    if (error.message.includes('no encontrado')) {
+    // Handle specific error cases
+    if (error.message.includes('not found')) {
       res.status(404).json({
         success: false,
-        error: 'Pokemon no encontrado',
+        error: 'Pokemon not found',
         message: error.message
       });
-    } else if (error.message.includes('Solo se pueden actualizar')) {
-      // ✅ ESTE ES EL QUE FALTABA
+    } else if (error.message.includes('Only user-created Pokemon')) {
       res.status(403).json({
         success: false,
-        error: 'No autorizado',
+        error: 'Unauthorized',
         message: error.message
       });
     } else if (error.message.includes('No hay campos válidos')) {
       res.status(400).json({
         success: false,
-        error: 'Error de validación',
+        error: 'Validation error',
         message: error.message
       });
     } else {
       res.status(500).json({
         success: false,
-        error: 'Error al actualizar Pokemon',
+        error: 'Error updating Pokemon',
         message: error.message
       });
     }

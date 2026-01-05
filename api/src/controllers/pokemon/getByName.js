@@ -5,17 +5,17 @@ const { Op } = require('sequelize');
 const getByName = async (name) => {
   try {
     if (!name || name.trim() === '') {
-      throw new Error('Debe proporcionar un nombre para buscar');
+      throw new Error('Search name must be provided');
     }
 
     const searchName = name.toLowerCase().trim();
-    console.log(`Buscando Pokemon por nombre: "${searchName}"`);
+    console.log(`Searching Pokemon by name: "${searchName}"`);
 
-    // 1. Buscar en la base de datos
+    // 1. Search in database
     const dbPokemon = await Pokemon.findOne({
       where: {
         name: {
-          [Op.iLike]: `%${searchName}%` // Búsqueda case-insensitive
+          [Op.iLike]: `%${searchName}%` // Case-insensitive search
         }
       },
       include: {
@@ -25,7 +25,7 @@ const getByName = async (name) => {
       }
     });
 
-    // 2. Buscar en la API
+    // 2. Search in API
     let apiPokemon = null;
     try {
       const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${searchName}`);
@@ -45,12 +45,12 @@ const getByName = async (name) => {
         source: 'api'
       };
       
-      console.log(`Pokemon encontrado en API: ${apiPokemon.name}`);
+      console.log(`Pokemon found in API: ${apiPokemon.name}`);
     } catch (apiError) {
-      console.log(`Pokemon "${searchName}" no encontrado en API`);
+      console.log(`Pokemon "${searchName}" not found in API`);
     }
 
-    // 3. Formatear resultado de DB si existe
+    // 3. Format database result if exists
     let formattedDbPokemon = null;
     if (dbPokemon) {
       formattedDbPokemon = {
@@ -66,19 +66,19 @@ const getByName = async (name) => {
         types: dbPokemon.types ? dbPokemon.types.map(type => type.name) : [],
         source: 'db'
       };
-      console.log(`Pokemon encontrado en DB: ${formattedDbPokemon.name}`);
+      console.log(`Pokemon found in database: ${formattedDbPokemon.name}`);
     }
 
-    // 4. Retornar resultados
+    // 4. Return results
     const results = [];
     if (apiPokemon) results.push(apiPokemon);
     if (formattedDbPokemon) results.push(formattedDbPokemon);
 
     if (results.length === 0) {
-      throw new Error(`No se encontró ningún Pokemon con el nombre "${name}"`);
+      throw new Error(`No Pokemon found with name "${name}"`);
     }
 
-    // Si buscó por nombre exacto, retornar solo el primero
+    // If exact name match, return only the first result
     if (searchName === apiPokemon?.name.toLowerCase() || searchName === formattedDbPokemon?.name.toLowerCase()) {
       return results[0];
     }
@@ -86,8 +86,8 @@ const getByName = async (name) => {
     return results;
 
   } catch (error) {
-    console.error(`Error buscando Pokemon por nombre "${name}":`, error.message);
-    throw new Error(`Error al buscar Pokemon: ${error.message}`);
+    console.error(`Error searching Pokemon by name "${name}":`, error.message);
+    throw new Error(`Error searching Pokemon: ${error.message}`);
   }
 };
 

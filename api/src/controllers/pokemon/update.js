@@ -2,25 +2,23 @@ const { Pokemon, Type } = require('../../db');
 
 const update = async (id, updateData) => {
   try {
-    console.log(`🔄 Actualizando Pokemon ID: ${id}`);
+    console.log(`Updating Pokemon ID: ${id}`);
 
-    // 1. Buscar Pokemon en DB
     const pokemon = await Pokemon.findByPk(id);
 
     if (!pokemon) {
-      throw new Error(`Pokemon con ID ${id} no encontrado`);
+      throw new Error(`Pokemon with ID ${id} not found`);
     }
 
-    // 2. ✅ VERIFICAR SI FUE CREADO POR USUARIO (igual que en DELETE)
-    // Como tu modelo no tiene campo 'created', verifica por UUID
+    // Only user-created Pokemon (UUID format) can be updated
     const idStr = id.toString();
     const isUUID = idStr.includes('-');
     
     if (!isUUID) {
-      throw new Error('Solo se pueden actualizar pokémons creados por usuarios');
+      throw new Error('Only user-created Pokemon can be updated');
     }
 
-    // 3. Actualizar campos básicos
+    // Update basic fields
     const allowedFields = ['name', 'image', 'hp', 'attack', 'defense', 'speed', 'height', 'weight'];
     allowedFields.forEach(field => {
       if (updateData[field] !== undefined) {
@@ -30,7 +28,7 @@ const update = async (id, updateData) => {
 
     await pokemon.save();
 
-    // 4. Actualizar tipos si se proporcionan
+    // Update types if provided
     if (updateData.types && Array.isArray(updateData.types)) {
       const typeInstances = await Promise.all(
         updateData.types.map(async (typeName) => {
@@ -44,12 +42,12 @@ const update = async (id, updateData) => {
       await pokemon.setTypes(typeInstances);
     }
 
-    // 5. Obtener tipos actualizados
+    // Get updated types
     const assignedTypes = await pokemon.getTypes();
     const typesNames = assignedTypes.map(t => t.name);
 
-    console.log(`✅ Pokemon actualizado: ${pokemon.name}`);
-    console.log(`✅ Tipos actualizados: ${typesNames.join(', ')}`);
+    console.log(`Pokemon updated: ${pokemon.name}`);
+    console.log(`Updated types: ${typesNames.join(', ')}`);
 
     return {
       id: pokemon.id,
@@ -66,8 +64,8 @@ const update = async (id, updateData) => {
     };
 
   } catch (error) {
-    console.error(`❌ Error actualizando Pokemon ${id}:`, error.message);
-    throw new Error(error.message); // Propaga mensaje original
+    console.error(`Error updating Pokemon ${id}:`, error.message);
+    throw new Error(error.message);
   }
 };
 

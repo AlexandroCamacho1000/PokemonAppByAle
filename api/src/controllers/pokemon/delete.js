@@ -2,42 +2,34 @@ const { Pokemon } = require('../../db');
 
 const deletePokemon = async (id) => {
   try {
-    console.log(`🗑️ Eliminando Pokemon ID: ${id}`);
-    
-    // DEBUG: Ver qué ID recibimos
-    console.log(`🔍 Tipo de ID: ${typeof id}, Valor: ${id}`);
+    console.log(`Deleting Pokemon ID: ${id}`);
 
-    // 1. Buscar Pokemon en DB
     const pokemon = await Pokemon.findByPk(id);
 
     if (!pokemon) {
-      throw new Error(`Pokemon con ID ${id} no encontrado`);
+      throw new Error(`Pokemon with ID ${id} not found`);
     }
 
-    // 2. ✅ VALIDACIÓN CORRECTA PARA TU MODELO:
-    // Tu modelo NO tiene campo 'created', así que usamos UUID check
+    // Only user-created Pokemon (UUID format) can be deleted
     const idStr = id.toString();
     const isUUID = idStr.includes('-');
     
-    console.log(`📊 ¿Es UUID (tiene guiones)?: ${isUUID}`);
-    
     if (!isUUID) {
-      throw new Error('Solo se pueden eliminar pokémons creados por usuarios');
+      throw new Error('Only user-created Pokemon can be deleted');
     }
 
-    // 3. Eliminar
     await pokemon.destroy();
 
-    console.log(`✅ Pokemon eliminado: ${pokemon.name}`);
+    console.log(`Pokemon deleted: ${pokemon.name}`);
 
     return { 
       success: true,
-      message: `Pokemon "${pokemon.name}" eliminado exitosamente`,
+      message: `Pokemon "${pokemon.name}" deleted successfully`,
       id: id
     };
 
   } catch (error) {
-    console.error(`❌ Error eliminando Pokemon ${id}:`, error.message);
+    console.error(`Error deleting Pokemon ${id}:`, error.message);
     throw new Error(error.message);
   }
 };
