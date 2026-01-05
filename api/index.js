@@ -20,9 +20,10 @@
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
 
-// Synchronize all database models
-conn.sync({ force: true }).then(() => {
-  server.listen(3001, () => {
-    console.log('Server listening on port 3001');
+const PORT = process.env.PORT || 3001;
+
+conn.sync({ force: false }).then(() => {
+  server.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
   });
 });

@@ -3,12 +3,29 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/index.js');
+const cors = require('cors');
 
 require('./db.js');
 
 const server = express();
 
 server.name = 'API';
+
+const allowedOrigins = [
+  'https://pokemon-app.vercel.app',
+  'http://localhost:3000'
+];
+
+server.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
@@ -24,7 +41,6 @@ server.use((req, res, next) => {
 
 server.use('/', routes);
 
-// Error handling middleware
 server.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || err;
