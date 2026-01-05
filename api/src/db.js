@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
-const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, NODE_ENV } = process.env;
 
 // Database connection
 const sequelize = new Sequelize(
@@ -8,6 +8,12 @@ const sequelize = new Sequelize(
   {
     logging: false,
     native: false,
+    dialectOptions: {
+      ssl: NODE_ENV === 'production' ? {
+        require: true,
+        rejectUnauthorized: false
+      } : false
+    }
   }
 );
 
