@@ -15,13 +15,15 @@
   overflow: hidden;
   backdrop-filter: blur(10px);
   height: 100%;
+  cursor: pointer;
 }
 
 .card:hover {
   transform: translateY(-10px) scale(1.02);
   border-color: rgba(255, 20, 147, 0.6);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4),
-              0 0 30px rgba(255, 20, 147, 0.2);
+  box-shadow: 
+    0 15px 30px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(255, 20, 147, 0.2);
 }
 
 .imageContainer {
@@ -78,7 +80,6 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Colores por tipo */
 .fire { background: linear-gradient(145deg, #ff6b6b, #ff8e53); }
 .water { background: linear-gradient(145deg, #4d96ff, #6bc5ff); }
 .grass { background: linear-gradient(145deg, #5cd85a, #82e882); }
@@ -142,18 +143,38 @@
   border: 1px solid rgba(255, 20, 147, 0.4);
 }
 
-/* Agrega esto a tu Card.module.css existente */
-.card {
-  /* ... todos tus estilos existentes ... */
-  cursor: pointer; /* ¡IMPORTANTE! */
-  transition: all 0.3s ease;
+/* Responsive design */
+@media (max-width: 768px) {
+  .card {
+    padding: 1rem;
+  }
+  
+  .image {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .name {
+    font-size: 1.2rem;
+  }
+  
+  .type {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.8rem;
+  }
+  
+  .statValue {
+    font-size: 1.1rem;
+  }
 }
 
-.card:hover {
-  transform: translateY(-10px) scale(1.02);
-  border-color: rgba(255, 20, 147, 0.6);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4),
-              0 0 30px rgba(255, 20, 147, 0.2);
+@media (max-width: 480px) {
+  .stats {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .types {
+    gap: 0.3rem;
+  }
 }
-
-/* Elimina .cardLink si existe, ya no lo necesitamos */

@@ -13,10 +13,7 @@
 .landingContainer::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: rgba(10, 25, 47, 0.7);
 }
 
@@ -29,8 +26,9 @@
   background: rgba(54, 79, 119, 0.4);
   border-radius: 15px;
   border: 1px solid rgba(255, 20, 147, 0.3);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
-              0 0 30px rgba(255, 20, 147, 0.1);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(255, 20, 147, 0.1);
   backdrop-filter: blur(10px);
 }
 
@@ -52,16 +50,17 @@
 .pokeballLogo {
   width: 70px;
   height: 70px;
-  animation: float 3s ease-in-out infinite, 
-             glowPulse 2s ease-in-out infinite alternate;
+  animation: 
+    float 3s ease-in-out infinite,
+    glowPulse 2s ease-in-out infinite alternate;
 }
 
 .title {
   font-size: 3.5rem;
-  /* TÍTULO BLANCO AL 90% */
-  color: rgba(255, 255, 255, 0.9); /* Blanco al 90% de opacidad */
-  text-shadow: 0 2px 10px rgba(255, 20, 147, 0.3),
-               0 0 20px rgba(255, 105, 180, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 
+    0 2px 10px rgba(255, 20, 147, 0.3),
+    0 0 20px rgba(255, 105, 180, 0.2);
   letter-spacing: 1px;
   font-weight: 700;
 }
@@ -69,7 +68,7 @@
 .subtitle {
   font-size: 1.5rem;
   margin-bottom: 3rem;
-  color: #a8c6ff; /* Azul claro */
+  color: #a8c6ff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
@@ -84,8 +83,9 @@
   font-weight: 600;
   transition: all 0.3s ease;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 4px 15px rgba(75, 124, 182, 0.4),
-              0 0 15px rgba(255, 20, 147, 0.2);
+  box-shadow: 
+    0 4px 15px rgba(75, 124, 182, 0.4),
+    0 0 15px rgba(255, 20, 147, 0.2);
   position: relative;
   overflow: hidden;
 }
@@ -94,14 +94,16 @@
   background: linear-gradient(145deg, #364f77, #4b7cb6);
   color: #ffffff;
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(75, 124, 182, 0.6),
-              0 0 20px rgba(255, 20, 147, 0.4);
+  box-shadow: 
+    0 6px 20px rgba(75, 124, 182, 0.6),
+    0 0 20px rgba(255, 20, 147, 0.4);
 }
 
 .enterButton:active {
   transform: translateY(0);
-  box-shadow: 0 3px 10px rgba(75, 124, 182, 0.4),
-              0 0 10px rgba(255, 20, 147, 0.2);
+  box-shadow: 
+    0 3px 10px rgba(75, 124, 182, 0.4),
+    0 0 10px rgba(255, 20, 147, 0.2);
 }
 
 .enterButton::after {
@@ -133,12 +135,55 @@
 
 @keyframes glowPulse {
   0% {
-    filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.7))
-            drop-shadow(0 0 20px rgba(255, 20, 147, 0.3));
+    filter: 
+      drop-shadow(0 0 10px rgba(255, 20, 147, 0.7))
+      drop-shadow(0 0 20px rgba(255, 20, 147, 0.3));
   }
   100% {
-    filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.9))
-            drop-shadow(0 0 30px rgba(255, 105, 180, 0.5))
-            drop-shadow(0 0 40px rgba(255, 20, 147, 0.3));
+    filter: 
+      drop-shadow(0 0 20px rgba(255, 20, 147, 0.9))
+      drop-shadow(0 0 30px rgba(255, 105, 180, 0.5))
+      drop-shadow(0 0 40px rgba(255, 20, 147, 0.3));
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .content {
+    padding: 2rem;
+    margin: 1rem;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .pokeballLogo {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .enterButton {
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .titleContainer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
   }
 }
