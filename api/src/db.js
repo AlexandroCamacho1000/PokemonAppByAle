@@ -2,9 +2,9 @@ require('dotenv').config();
 const { Sequelize } = require('sequelize');
 const { DB_USER, DB_PASSWORD, DB_HOST, NODE_ENV } = process.env;
 
-// Database connection
+// Database connection - CAMBIA pokemon POR pokemon_db_tvfo
 const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/pokemon`,
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/pokemon_db_tvfo`,
   {
     logging: false,
     native: false,
