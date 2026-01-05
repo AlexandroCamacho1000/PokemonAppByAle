@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-// RUTAS DE POKÉMON (comentadas temporalmente hasta crear los handlers)
+// Pokemon route handlers
 const getAllHandler = require('../handlers/pokemon/getAllHandler');
 const getByIdHandler = require('../handlers/pokemon/getByIdHandler');
 const getByNameHandler = require('../handlers/pokemon/getByNameHandler');
@@ -9,27 +9,35 @@ const createHandler = require('../handlers/pokemon/createHandler');
 const updateHandler = require('../handlers/pokemon/updateHandler');
 const deleteHandler = require('../handlers/pokemon/deleteHandler');
 
-// RUTA DE TIPOS (comentada temporalmente)
+// Type route handler
 const typeHandler = require('../handlers/type/typeHandler');
 
-// RUTA DE PRUEBA
+// Test route
 router.get('/test', (req, res) => {
   res.status(200).json({ 
-    message: '✅ Servidor funcionando',
+    message: 'Server operational',
     endpoints: {
       test: 'GET /test',
-      // Agregaremos los demás cuando estén listos
+      getAllPokemons: 'GET /pokemons',
+      getPokemonById: 'GET /pokemons/:id',
+      searchPokemonByName: 'GET /pokemons/name',
+      createPokemon: 'POST /pokemons',
+      updatePokemon: 'PUT /pokemons/:id',
+      deletePokemon: 'DELETE /pokemons/:id',
+      getTypes: 'GET /types'
     }
   });
 });
 
-// RUTAS COMENTADAS (activar una por una)
- router.get('/pokemons', getAllHandler);
- router.get('/pokemons/name', getByNameHandler);
- router.get('/pokemons/:id', getByIdHandler);
- router.post('/pokemons', createHandler);
- router.get('/types', typeHandler);
- router.put('/pokemons/:id', updateHandler);
- router.delete('/pokemons/:id', deleteHandler);
+// Pokemon routes
+router.get('/pokemons', getAllHandler);
+router.get('/pokemons/name', getByNameHandler);
+router.get('/pokemons/:id', getByIdHandler);
+router.post('/pokemons', createHandler);
+router.put('/pokemons/:id', updateHandler);
+router.delete('/pokemons/:id', deleteHandler);
+
+// Type route
+router.get('/types', typeHandler);
 
 module.exports = router;

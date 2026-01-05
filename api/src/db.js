@@ -1,11 +1,8 @@
-// src/db.js
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
 const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
-console.log('🔍 Type module:', require('./models/Type'));
-console.log('🔍 Pokemon module:', require('./models/Pokemon'));
 
-// 1. Conexión a PostgreSQL
+// Database connection
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/pokemon`,
   {
@@ -14,15 +11,14 @@ const sequelize = new Sequelize(
   }
 );
 
-// 2. Importar modelos manualmente (más control)
+// Import models
 const Pokemon = require('./models/Pokemon')(sequelize);
 const Type = require('./models/Type')(sequelize);
 
-// 3. Definir relaciones
+// Define model relationships
 Pokemon.belongsToMany(Type, { through: 'PokemonType' });
 Type.belongsToMany(Pokemon, { through: 'PokemonType' });
 
-// 4. Exportar
 module.exports = {
   conn: sequelize,
   Pokemon,

@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const Pokemon = sequelize.define('Pokemon', {  // Cambia 'pokemon' a 'Pokemon'
+  const Pokemon = sequelize.define('Pokemon', {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -40,5 +40,5 @@ module.exports = (sequelize) => {
     timestamps: false,
   });
 
-  return Pokemon;  // ← ESTA LÍNEA FALTABA
+  return Pokemon;
 };
