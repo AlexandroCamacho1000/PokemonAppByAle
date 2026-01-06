@@ -13,7 +13,7 @@ server.name = 'API';
 
 
 server.use(cors({
-  origin: ['http://localhost:3000', 'https://*.vercel.app'],
+  origin: '*',
   credentials: true
 }));
 
@@ -21,8 +21,6 @@ server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(cookieParser());
 server.use(morgan('dev'));
-
-
 server.use('/', routes);
 
 server.use((err, req, res, next) => {
