@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001';
+//const API_URL = 'http://localhost:3001';
+const API_URL = process.env.REACT_APP_API_URL || 'https://pokemon-backend-fl2n.onrender.com';
 
 export const GET_TYPES = 'GET_TYPES';
 

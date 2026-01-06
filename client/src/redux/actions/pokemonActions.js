@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // Base URL
-const API_URL = 'http://localhost:3001';
+//const API_URL = 'http://localhost:3001';
+const API_URL = process.env.REACT_APP_API_URL || 'https://pokemon-backend-fl2n.onrender.com';
 
 // Action Types
 export const UPDATE_POKEMON = 'UPDATE_POKEMON';
