@@ -27,18 +27,23 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    speed: {
-      type: DataTypes.INTEGER,
-    },
-    height: {
-      type: DataTypes.INTEGER,
-    },
-    weight: {
-      type: DataTypes.INTEGER,
-    },
+    speed: DataTypes.INTEGER,
+    height: DataTypes.INTEGER,
+    weight: DataTypes.INTEGER,
   }, {
     timestamps: false,
+    tableName: 'pokemons',
   });
+
+  // Many-to-many relationship with Type
+  Pokemon.associate = (models) => {
+    Pokemon.belongsToMany(models.Type, {
+      through: 'pokemon_types',
+      foreignKey: 'pokemonId',
+      otherKey: 'typeId',
+      as: 'types',
+    });
+  };
 
   return Pokemon;
 };

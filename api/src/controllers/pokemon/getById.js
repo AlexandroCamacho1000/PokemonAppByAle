@@ -10,6 +10,7 @@ const getById = async (id) => {
       const dbPokemon = await Pokemon.findByPk(id, {
         include: {
           model: Type,
+          as: 'types',
           attributes: ['name'],
           through: { attributes: [] }
         }
@@ -60,7 +61,12 @@ const getById = async (id) => {
       const numericId = parseInt(id);
       if (!isNaN(numericId)) {
         const dbPokemon = await Pokemon.findByPk(id, {
-          include: Type
+          include: {
+            model: Type,
+            as: 'types',  // ← AGREGA TAMBIÉN AQUÍ
+            attributes: ['name'],
+            through: { attributes: [] }
+          }
         });
         
         if (dbPokemon) {

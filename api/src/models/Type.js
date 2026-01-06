@@ -14,7 +14,18 @@ module.exports = (sequelize) => {
     },
   }, {
     timestamps: false,
+    tableName: 'types',
   });
+
+  // Many-to-many relationship with Pokemon
+  Type.associate = (models) => {
+    Type.belongsToMany(models.Pokemon, {
+      through: 'pokemon_types',
+      foreignKey: 'typeId',
+      otherKey: 'pokemonId',
+      as: 'pokemons',
+    });
+  };
 
   return Type;
 };

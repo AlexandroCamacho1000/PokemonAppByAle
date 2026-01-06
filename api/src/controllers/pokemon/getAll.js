@@ -37,10 +37,11 @@ const getAll = async () => {
     // Filter out null values
     const validApiPokemons = apiPokemons.filter(p => p !== null);
 
-    // 2. Fetch from database
+    // 2. Fetch from database 
     const dbPokemons = await Pokemon.findAll({
       include: {
         model: Type,
+        as: 'types',  
         attributes: ['name'],
         through: { attributes: [] }
       }
