@@ -11,15 +11,16 @@ const getByName = async (name) => {
     const searchName = name.toLowerCase().trim();
     console.log(`Searching Pokemon by name: "${searchName}"`);
 
-    // 1. Search in database
+    // 1. Search in database 
     const dbPokemon = await Pokemon.findOne({
       where: {
         name: {
-          [Op.iLike]: `%${searchName}%` // Case-insensitive search
+          [Op.iLike]: `%${searchName}%`
         }
       },
       include: {
         model: Type,
+        as: 'types',  
         attributes: ['name'],
         through: { attributes: [] }
       }
@@ -79,11 +80,11 @@ const getByName = async (name) => {
     }
 
     // If exact name match, return only the first result
-    if (searchName === apiPokemon?.name.toLowerCase() || searchName === formattedDbPokemon?.name.toLowerCase()) {
-      return results[0];
-    }
-
-    return results;
+    const exactMatch = results.find(p => 
+      p.name.toLowerCase() === searchName
+    );
+    
+    return exactMatch || results;
 
   } catch (error) {
     console.error(`Error searching Pokemon by name "${name}":`, error.message);
