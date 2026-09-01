@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styles from './Landing.module.css';
-import miLogo from '../../assets/alesoft.png';
+import miLogo from '../../assets/logoaledev26.png';
 
 const Landing = () => {
   const history = useHistory();
@@ -13,7 +13,7 @@ const Landing = () => {
   return (
     <div className={styles.landingContainer}>
       <div className={styles.content}>
-        <img src={miLogo} alt="Alesoft Logo" className={styles.logo} />
+        <img src={miLogo} alt="AleDev Logo" className={styles.logo} />
         
         <div className={styles.titleContainer}>
           <img 
