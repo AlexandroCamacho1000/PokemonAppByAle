@@ -101,8 +101,9 @@ const pokemonReducer = (state = initialState, action) => {
       
       if (state.filters.origin !== 'all') {
         filtered = filtered.filter(pokemon => {
-          if (state.filters.origin === 'api') return pokemon.id < 10000;
-          if (state.filters.origin === 'db') return pokemon.id > 10000;
+          const isDb = typeof pokemon.id === 'string' && pokemon.id.includes('-');
+          if (state.filters.origin === 'api') return !isDb;
+          if (state.filters.origin === 'db') return isDb;
           return true;
         });
       }
@@ -127,8 +128,9 @@ const pokemonReducer = (state = initialState, action) => {
       
       if (origin !== 'all') {
         filtered = filtered.filter(pokemon => {
-          if (origin === 'api') return pokemon.id < 10000;
-          if (origin === 'db') return pokemon.id > 10000;
+          const isDb = typeof pokemon.id === 'string' && pokemon.id.includes('-');
+          if (origin === 'api') return !isDb;
+          if (origin === 'db') return isDb;
           return true;
         });
       }

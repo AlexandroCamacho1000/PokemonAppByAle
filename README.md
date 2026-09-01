@@ -5,16 +5,17 @@
 ## 1. Overview  
 The Pokémon App is a full-stack web application that allows users to manage their Pokémon collection. It implements full CRUD operations (Create, Read, Update, Delete) and connects to both a custom backend API and the PokéAPI for data fetching. Users can create new Pokémon, filter by multiple criteria, view detailed statistics, and edit existing entries. The app features a dark theme with neon accents and glass morphism effects.
 
+**Live Demo:** https://pokemon-app-by-ale.vercel.app | **API:** https://pokemon-backend-fl2n.onrender.com
+
 ## 2. Technologies Used  
-Frontend: React.js, JavaScript (ES6+), HTML5, CSS3, React Router, React Hooks  
-Backend: Node.js, Express.js, PostgreSQL, Sequelize, JWT  
+Frontend: React.js, Redux, React Router, Axios, HTML5, CSS3  
+Backend: Node.js, Express.js, PostgreSQL (Neon), Sequelize  
 External API: PokéAPI (https://pokeapi.co/)  
-Tools: Git & GitHub, Visual Studio Code, npm, Render
+Deploy: Vercel (frontend) + Render (backend) + Neon (Postgres) + UptimeRobot
 
 ## 3. Installation Guide (Run Locally)  
-Backend Setup: cd api npm install Create .env file in /api folder with: DB_USER=postgres DB_PASSWORD= DB_HOST=localhost DB_NAME=pokemon PORT=3001 Then: npm start Server runs on http://localhost:3001
-
-Frontend Setup: cd client npm install npm start App runs on http://localhost:3000 IMPORTANT: You must create the .env file with the EXACT credentials shown above before starting the backend server.
+Backend Setup: cd api && npm install — Create .env with DATABASE_URL (Neon) or DB_USER/DB_PASSWORD/DB_HOST/DB_NAME for local Postgres — npm run dev (port 3001)
+Frontend Setup: cd client && npm install — Create .env with REACT_APP_API_URL=http://localhost:3001 — npm start (port 3000)
 
 ## Developed by: Alejandro Camacho  
 GitHub: AlexandroCamacho1000
@@ -25,15 +26,14 @@ GitHub: AlexandroCamacho1000
 La Aplicación de Pokémon es una aplicación full-stack que permite a los usuarios gestionar su colección Pokémon. Implementa operaciones CRUD completas (Crear, Leer, Actualizar, Eliminar) y se conecta tanto a una API backend personalizada como a la PokéAPI para obtener datos. Los usuarios pueden crear nuevos Pokémon, filtrar por múltiples criterios, ver estadísticas detalladas y editar entradas existentes. La aplicación cuenta con un tema oscuro con acentos neón y efectos glass morphism.
 
 ## 2. Tecnologías Utilizadas  
-Frontend: React.js, JavaScript (ES6+), HTML5, CSS3, React Router, React Hooks  
-Backend: Node.js, Express.js, PostgreSQL, Sequelize, JWT  
+Frontend: React.js, Redux, React Router, Axios, HTML5, CSS3  
+Backend: Node.js, Express.js, PostgreSQL (Neon), Sequelize  
 API Externa: PokéAPI (https://pokeapi.co/)  
-Herramientas: Git y GitHub, Visual Studio Code, npm, Render
+Deploy: Vercel (frontend) + Render (backend) + Neon (Postgres)
 
 ## 3. Guía de Instalación (Ejecutar Localmente)  
-Configuración del Backend: cd api npm install Crea archivo .env en carpeta /api con: DB_USER=postgres DB_PASSWORD= DB_HOST=localhost DB_NAME=pokemon PORT=3001 Luego: npm start El servidor corre en http://localhost:3001
-
-Configuración del Frontend: cd client npm install npm start La aplicación corre en http://localhost:3000 IMPORTANTE: Debes crear el archivo .env con las credenciales EXACTAS mostradas arriba antes de iniciar el servidor backend.
+Backend: cd api && npm install — Crear .env con DATABASE_URL (Neon) o DB_USER/DB_PASSWORD/DB_HOST/DB_NAME local — npm run dev (puerto 3001)
+Frontend: cd client && npm install — Crear .env con REACT_APP_API_URL=http://localhost:3001 — npm start (puerto 3000)
 
 ## Desarrollado por: Alejandro Camacho  
 GitHub: AlexandroCamacho1000
