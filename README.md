@@ -1,4 +1,8 @@
-<img width="200" height="200" alt="alesoft" src="https://github.com/user-attachments/assets/5a3c18a4-d5af-4634-bf93-49009260522d" />
+<div align="center">
+
+  <img width="180" src="./client/public/logoaledev26.png" alt="AleDev Logo" />
+
+</div>
 
 # Pokémon App
 
