@@ -332,9 +332,9 @@
   }
   
   .cardContainer {
-    min-height: 350px;
+    min-height: 330px;
     width: 100%;
-    max-width: 360px;
+    max-width: 320px;
     justify-content: center;
   }
   
