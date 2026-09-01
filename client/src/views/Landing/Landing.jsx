@@ -21,7 +21,7 @@ const Landing = () => {
             alt="Pokeball" 
             className={styles.pokeballLogo}
           />
-          <h1 className={styles.title}>POKEMON APP</h1>
+          <h1 className={styles.title}>POKÉMON APP</h1>
           <img 
             src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg" 
             alt="Pokeball" 
@@ -30,6 +30,7 @@ const Landing = () => {
         </div>
         
         <p className={styles.subtitle}>Explore the world of Pokémon</p>
+        <p className={styles.stats}>41 Pokémon • 20 Types • Create & Collect</p>
         <button className={styles.enterButton} onClick={handleEnter}>
           ENTER
         </button>
