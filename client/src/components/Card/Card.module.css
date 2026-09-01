@@ -170,12 +170,34 @@
 }
 
 @media (max-width: 480px) {
-  .stats {
-    flex-direction: column;
-    gap: 0.5rem;
+  .card {
+    padding: 1rem;
   }
-  
+  .image {
+    width: 110px;
+    height: 110px;
+  }
+  .name {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+  }
+  .stats {
+    flex-direction: row;
+    gap: 0.3rem;
+    padding: 0.6rem;
+  }
+  .statLabel {
+    font-size: 0.7rem;
+  }
+  .statValue {
+    font-size: 1rem;
+  }
   .types {
     gap: 0.3rem;
+    margin-bottom: 1rem;
+  }
+  .type {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
   }
 }
