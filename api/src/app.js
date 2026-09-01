@@ -12,9 +12,10 @@ const server = express();
 server.name = 'API';
 
 
+const CLIENT_URL = process.env.CLIENT_URL || process.env.CORS_ORIGIN || '*';
 server.use(cors({
-  origin: '*',
-  credentials: true
+  origin: CLIENT_URL === '*' ? '*' : CLIENT_URL.split(','),
+  credentials: CLIENT_URL !== '*',
 }));
 
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));

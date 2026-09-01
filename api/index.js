@@ -22,8 +22,12 @@ const { conn } = require('./src/db.js');
 
 const PORT = process.env.PORT || 3001;
 
-conn.sync({ force: false }).then(() => {
-  server.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
+// Professional: server listens even if DB fails, health check independent
+conn.sync({ force: false })
+  .then(() => console.log('DB synced'))
+  .catch((err) => console.error('DB sync failed (server still running):', err.message))
+  .finally(() => {
+    server.listen(PORT, () => {
+      console.log(`Server listening on port ${PORT}`);
+    });
   });
-});
