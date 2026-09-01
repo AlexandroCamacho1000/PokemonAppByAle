@@ -1,7 +1,11 @@
 require('dotenv').config({ path: require('path').resolve(__dirname, '../.env') });
 require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env.local') });
 const { Sequelize } = require('sequelize');
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DATABASE_URL, DATABASE_URL_UNPOOLED, NODE_ENV } = process.env;
+let { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DATABASE_URL, DATABASE_URL_UNPOOLED, NODE_ENV } = process.env;
+// Trim quotes if pasted from .env.local
+if (DATABASE_URL) DATABASE_URL = DATABASE_URL.replace(/^"|"$/g, '').trim();
+if (DATABASE_URL_UNPOOLED) DATABASE_URL_UNPOOLED = DATABASE_URL_UNPOOLED.replace(/^"|"$/g, '').trim();
+console.log('[DB] NODE_ENV:', NODE_ENV, '| DATABASE_URL?', !!DATABASE_URL, '| DB_HOST?', !!DB_HOST);
 
 // Database connection configuration - professional: DATABASE_URL first (Neon), fallback local vars
 let sequelize;
