@@ -29,7 +29,7 @@ const Landing = () => {
           />
         </div>
         
-        <p className={styles.subtitle}>Explore the world of Pokemon</p>
+        <p className={styles.subtitle}>Explore the world of Pokémon</p>
         <button className={styles.enterButton} onClick={handleEnter}>
           ENTER
         </button>

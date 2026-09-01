@@ -56,7 +56,7 @@ const Filters = () => {
       <div className={styles.filtersGrid}>
         <div className={styles.filterGroup}>
           <label className={styles.filterLabel}>
-            Pokemon Type
+            Pokémon Type
           </label>
           <select 
             value={localType} 

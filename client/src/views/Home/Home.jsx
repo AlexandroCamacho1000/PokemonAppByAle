@@ -25,8 +25,8 @@ const Home = () => {
     return (
       <div className={styles.loading}>
         <div className={styles.spinner}></div>
-        <h2>Loading Pokemon...</h2>
-        <p>Preparing your Pokemon adventure</p>
+        <h2>Loading Pokémon...</h2>
+        <p>Preparing your Pokémon adventure</p>
       </div>
     );
   }
@@ -35,18 +35,18 @@ const Home = () => {
     <div className={styles.home}>
       <div className={styles.header}>
         <div className={styles.headerContent}>
-          <h1>EXPLORE THE POKEMON WORLD</h1>
+          <h1>EXPLORE THE POKÉMON WORLD</h1>
           <div className={styles.counter}>
-            {displayedPokemons.length} Pokemon discovered
+            {displayedPokemons.length} Pokémon discovered
           </div>
           <p className={styles.subtitle}>
-            Discover, collect and explore all creatures in the Pokemon universe
+            Discover, collect and explore all creatures in the Pokémon universe
           </p>
         </div>
         
         <Link to="/create" className={styles.createButton}>
           <span className={styles.plusIcon}>＋</span>
-          Create Pokemon
+          Create Pokémon
         </Link>
       </div>
 
@@ -67,10 +67,10 @@ const Home = () => {
           ))
         ) : (
           <div className={styles.noPokemons}>
-            <h2>Oh no! No Pokemon here</h2>
+            <h2>Oh no! No Pokémon here</h2>
             <p>
-              No Pokemon found with current filters.
-              Try changing filters or create a new Pokemon.
+              No Pokémon found with current filters.
+              Try changing filters or create a new Pokémon.
             </p>
             <button 
               className={styles.refreshButton} 
@@ -79,7 +79,7 @@ const Home = () => {
               🔄 Show all
             </button>
             <Link to="/create" className={styles.createButtonAlt}>
-              ✨ Create new Pokemon
+              ✨ Create new Pokémon
             </Link>
           </div>
         )}

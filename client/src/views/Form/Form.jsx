@@ -151,15 +151,15 @@ function Form() {
             if (form.height) pokemonData.height = Number(form.height);
             if (form.weight) pokemonData.weight = Number(form.weight);
             
-            console.log('Submitting Pokemon:', pokemonData);
+            console.log('Submitting Pokémon:', pokemonData);
             
             await dispatch(createPokemon(pokemonData));
             
-            alert('Pokemon created successfully!');
+            alert('Pokémon created successfully!');
             history.push('/home');
             
         } catch (error) {
-            console.error('Error creating Pokemon:', error);
+            console.error('Error creating Pokémon:', error);
             alert(`Error: ${error.response?.data?.error || error.message || 'Unknown error'}`);
         } finally {
             setLoading(false);
@@ -168,7 +168,7 @@ function Form() {
     
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Create New Pokemon</h1>
+            <h1 className={styles.title}>Create New Pokémon</h1>
             <p className={styles.subtitle}>Fields marked with * are required</p>
             
             <form onSubmit={handleSubmit} className={styles.form}>
@@ -343,7 +343,7 @@ function Form() {
                         className={styles.submitButton}
                         disabled={loading}
                     >
-                        {loading ? 'Creating...' : '✨ Create Pokemon'}
+                        {loading ? 'Creating...' : '✨ Create Pokémon'}
                     </button>
                     
                     <button 

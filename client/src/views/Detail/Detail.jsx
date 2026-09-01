@@ -65,7 +65,7 @@ const Detail = () => {
     return (
       <div className={styles.loadingContainer}>
         <div className={styles.loadingSpinner}></div>
-        <h2>Loading Pokemon...</h2>
+        <h2>Loading Pokémon...</h2>
       </div>
     );
   }
@@ -73,8 +73,8 @@ const Detail = () => {
   if (!pokemonDetail || !pokemonDetail.id) {
     return (
       <div className={styles.errorContainer}>
-        <h2>Pokemon not found!</h2>
-        <p>The Pokemon you're looking for doesn't exist or couldn't be loaded.</p>
+        <h2>Pokémon not found!</h2>
+        <p>The Pokémon you're looking for doesn't exist or couldn't be loaded.</p>
         <div className={styles.errorButtons}>
           <button onClick={handleGoBack} className={styles.backButton}>
             ↩ Go back
@@ -115,7 +115,7 @@ const Detail = () => {
           🏠 Home
         </Link>
         <Link to="/create" className={styles.navButton}>
-          ✨ Create Pokemon
+          ✨ Create Pokémon
         </Link>
       </div>
 
@@ -211,8 +211,8 @@ const Detail = () => {
                     <span className={styles.totalLabel}>Base Total:</span>
                     <span className={styles.totalValue}>{hp + attack + defense + speed}</span>
                   </div>
-                  <p className={styles.statsNote}>
-                    * Base stats determine the Pokemon's battle potential.
+                    <p className={styles.statsNote}>
+                    * Base stats determine the Pokémon's battle potential.
                   </p>
                 </div>
               </div>
@@ -245,7 +245,7 @@ const Detail = () => {
                   <div className={styles.infoItem}>
                     <span className={styles.infoLabel}>Origin</span>
                     <span className={styles.infoValue}>
-                      {isUserCreated ? 'Database' : 'Pokemon API'}
+                      {isUserCreated ? 'Database' : 'Pokémon API'}
                     </span>
                   </div>
                 </div>
@@ -255,8 +255,8 @@ const Detail = () => {
                   <p className={styles.descriptionText}>
                     {name} is a {types.map(t => typeof t === 'string' ? t : t.name).join('/')} 
                     {isUserCreated 
-                      ? ' Pokemon created by trainers.' 
-                      : ' Pokemon found in the wild.'}
+                      ? ' Pokémon created by trainers.' 
+                      : ' Pokémon found in the wild.'}
                     With {hp} health points and {attack} attack, it's a formidable 
                     {isUserCreated ? ' adventure companion.' : ' battle contender.'}
                   </p>
@@ -269,10 +269,10 @@ const Detail = () => {
 
       <div className={styles.actionButtons}>
         <Link to={`/create`} className={styles.createButton}>
-          ✨ Create Similar Pokemon
+          ✨ Create Similar Pokémon
         </Link>
         <button onClick={handleGoBack} className={styles.exploreButton}>
-          🔍 Explore more Pokemon
+          🔍 Explore more Pokémon
         </button>
       </div>
 
@@ -293,15 +293,15 @@ const Detail = () => {
               🗑️ Delete Pokemon
             </button>
           </div>
-          <p className={styles.adminNotice}>
-            This Pokemon was created by you. You can edit or delete it.
+            <p className={styles.adminNotice}>
+            This Pokémon was created by you. You can edit or delete it.
           </p>
         </>
       )}
 
       {!isUserCreated && (
         <div className={styles.apiNotice}>
-          ℹ️ This is an original Pokemon from the API. Only user-created Pokemon can be edited or deleted.
+          ℹ️ This is an original Pokémon from the API. Only user-created Pokémon can be edited or deleted.
         </div>
       )}
     </div>
