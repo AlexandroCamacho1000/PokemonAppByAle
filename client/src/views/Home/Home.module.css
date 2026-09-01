@@ -317,6 +317,9 @@
 }
 
 @media (max-width: 480px) {
+  .home {
+    padding: 1rem 1rem 2rem;
+  }
   .home h1 {
     font-size: 2rem;
   }
@@ -324,10 +327,15 @@
   .pokemonGrid {
     grid-template-columns: 1fr;
     gap: 2rem;
+    justify-items: center;
+    padding: 0 0.5rem;
   }
   
   .cardContainer {
     min-height: 350px;
+    width: 100%;
+    max-width: 360px;
+    justify-content: center;
   }
   
   .counter {
