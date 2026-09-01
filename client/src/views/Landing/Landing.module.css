@@ -68,8 +68,11 @@
 .subtitle {
   font-size: 1.5rem;
   margin-bottom: 3rem;
-  color: #a8c6ff;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 15px rgba(168, 198, 255, 0.4);
+  opacity: 1;
 }
 
 .enterButton {
