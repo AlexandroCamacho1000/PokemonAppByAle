@@ -334,7 +334,8 @@
   }
   
   .cardContainer {
-    min-height: 260px;
+    min-height: 0;
+    height: auto;
     width: 100%;
     max-width: none;
     justify-content: stretch;
