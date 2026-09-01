@@ -327,17 +327,17 @@
   }
   
   .pokemonGrid {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-    justify-items: center;
-    padding: 0 0.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 0.8rem;
+    justify-items: stretch;
+    padding: 0;
   }
   
   .cardContainer {
-    min-height: 330px;
+    min-height: 260px;
     width: 100%;
-    max-width: 320px;
-    justify-content: center;
+    max-width: none;
+    justify-content: stretch;
   }
   
   .counter {
