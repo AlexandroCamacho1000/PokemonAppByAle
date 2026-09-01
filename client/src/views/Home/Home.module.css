@@ -321,7 +321,11 @@
     padding: 1rem 1rem 2rem;
   }
   .home h1 {
-    font-size: 2rem;
+    font-size: 1.7rem;
+    line-height: 1.2;
+  }
+  .subtitle {
+    font-size: 1rem;
   }
   
   .pokemonGrid {

@@ -642,6 +642,13 @@
     align-items: flex-start;
     gap: 1rem;
   }
+  .navigation {
+    flex-direction: column;
+  }
+  .navButton {
+    width: 100%;
+    justify-content: center;
+  }
   
   .infoGrid {
     grid-template-columns: 1fr;
