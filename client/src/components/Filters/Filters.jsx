@@ -29,11 +29,7 @@ const Filters = () => {
     dispatch(filterByType(type));
   };
 
-  const handleOriginChange = (e) => {
-    const origin = e.target.value;
-    setLocalOrigin(origin);
-    dispatch(filterByOrigin(origin));
-  };
+  // handleOriginChange removed - origin handled via buttons
 
   const handleSortChange = (e) => {
     const sort = e.target.value;

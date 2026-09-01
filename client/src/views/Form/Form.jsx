@@ -64,6 +64,8 @@ function Form() {
                 if (value.length === 0) error = 'Select at least 1 type';
                 else if (value.length > 2) error = 'Maximum 2 types';
                 break;
+            default:
+                break;
         }
         
         return error;
