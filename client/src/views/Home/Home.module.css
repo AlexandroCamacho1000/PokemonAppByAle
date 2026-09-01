@@ -328,9 +328,9 @@
   
   .pokemonGrid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem 0.8rem;
+    gap: 1.8rem 0.8rem;
     justify-items: stretch;
-    padding: 0;
+    padding: 0.5rem 0 1rem;
   }
   
   .cardContainer {
